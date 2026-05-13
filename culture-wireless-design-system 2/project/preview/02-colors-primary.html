@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Brand colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 200px;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    font-family: var(--cw-font-sans);
+  }
+  .swatch { display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; color: white; }
+  .name { font-family: var(--cw-font-display); font-weight: 700; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .hex  { font-size: 11px; opacity: 0.85; margin-top: 2px; letter-spacing: 0.04em; }
+  .light .name, .light .hex { color: var(--cw-fg-1); }
+</style>
+</head>
+<body>
+  <div class="swatch" style="background: #1A1233;"><div class="name">Navy Deep</div><div class="hex">#1A1233</div></div>
+  <div class="swatch" style="background: #33244D;"><div class="name">Navy</div><div class="hex">#33244D</div></div>
+  <div class="swatch" style="background: #8B69C1;"><div class="name">Purple</div><div class="hex">#8B69C1</div></div>
+  <div class="swatch" style="background: #77A3FF;"><div class="name">Blue</div><div class="hex">#77A3FF</div></div>
+  <div class="swatch light" style="background: #FFB900;"><div class="name">Yellow</div><div class="hex">#FFB900</div></div>
+</body>
+</html>

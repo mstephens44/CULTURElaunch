@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Body type</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 240px;
+    background: var(--cw-bg-1);
+    padding: 22px 28px; box-sizing: border-box;
+  }
+  .row { display: flex; align-items: baseline; gap: 18px; margin-bottom: 12px; }
+  .meta {
+    flex: 0 0 90px;
+    font-family: var(--cw-font-sans);
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cw-fg-4); padding-top: 6px;
+  }
+  .specimen { flex: 1; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="meta">H3 · 22</div>
+    <div class="specimen cw-h3">Internet isn't a luxury. It's a necessity.</div>
+  </div>
+  <div class="row">
+    <div class="meta">Body LG · 18</div>
+    <div class="specimen cw-body-lg">We create authentic connections to the communities we serve.</div>
+  </div>
+  <div class="row">
+    <div class="meta">Body · 16</div>
+    <div class="specimen cw-body">Affordable, reliable internet for unserved and underserved communities — wherever you are.</div>
+  </div>
+  <div class="row">
+    <div class="meta">Caption · 12</div>
+    <div class="specimen cw-caption">Authentic · Expert · Connected</div>
+  </div>
+</body>
+</html>

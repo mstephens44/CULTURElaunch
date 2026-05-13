@@ -1,0 +1,401 @@
+/* indoobit — Colors & Type Tokens
+ * Source: Indoobit Brand Identity Guidelines v1.0 (2026)
+ * Primary palette: Void Black, Signal White, Signal Amber.
+ * Type: Neue Haas Grotesk (brand) — Barlow as approved digital substitute.
+ *       DM Mono for monospace labels, data, technical references.
+ */
+
+/* ─── Brand fonts (Neue Haas Grotesk — licensed files) ───────────── */
+@font-face {
+  font-family: 'Neue Haas Grotesk';
+  src: url('./fonts/31862445252.ttf') format('truetype');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Neue Haas Grotesk';
+  src: url('./fonts/38184073029.ttf') format('truetype');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* DM Mono (no brand substitute available — continue loading from Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&display=swap');
+
+:root {
+  /* ─── Primary palette ──────────────────────────────────────────── */
+  --void-black:    #0A0A0A;   /* Primary background */
+  --signal-white:  #FFFFFF;   /* Primary type on dark */
+  --signal-amber:  #E8A020;   /* Accent only — emphasis, active states */
+
+  /* ─── Secondary palette (PRODUCT UI ONLY — never marketing) ───── */
+  --surface-l1:    #141414;   /* Input fields, secondary card backgrounds */
+  --surface-l2:    #1A1A1A;   /* Elevated elements, dropdowns, modals    */
+  --surface-l3:    #222222;   /* Hover state for secondary buttons       */
+  --ui-border:     #333333;   /* Dividers, inactive borders, table strokes */
+  --ui-border-strong: #444444;/* Disabled buttons, disabled text fields  */
+  --amber-hover:   #C2851A;   /* Hover state for primary buttons         */
+
+  /* ─── Semantic foreground ─────────────────────────────────────── */
+  --fg-1: var(--signal-white);          /* Primary text on dark */
+  --fg-2: rgba(255,255,255,0.72);       /* Secondary text       */
+  --fg-3: rgba(255,255,255,0.50);       /* Tertiary / labels    */
+  --fg-4: rgba(255,255,255,0.32);       /* Disabled / hint      */
+  --fg-accent: var(--signal-amber);
+  --on-amber:  #0A0A0A;   /* Foreground for elements ON an amber fill — always slate-black, regardless of theme. */
+
+  /* ─── Semantic background ─────────────────────────────────────── */
+  --bg-app:     var(--void-black);
+  --bg-surface: var(--surface-l1);
+  --bg-elevated: var(--surface-l2);
+  --bg-hover:   var(--surface-l3);
+
+  /* ─── Border ──────────────────────────────────────────────────── */
+  --border-subtle: rgba(255,255,255,0.06);
+  --border:        var(--ui-border);
+  --border-strong: var(--ui-border-strong);
+
+  /* ─── State colors ────────────────────────────────────────────── */
+  --state-success: #4ADE80;
+  --state-warning: var(--signal-amber);
+  --state-danger:  #EF4444;
+  --state-info:    #60A5FA;
+
+  /* Light theme inversions (for marketing light surfaces) */
+  --light-bg:     #FFFFFF;
+  --light-fg-1:   #0A0A0A;
+  --light-fg-2:   rgba(10,10,10,0.72);
+  --light-fg-3:   rgba(10,10,10,0.50);
+
+  /* ─── Type families ───────────────────────────────────────────── */
+  --font-display: 'Neue Haas Grotesk', 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'Neue Haas Grotesk', 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'DM Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ─── Type scale (per brand guide) ────────────────────────────── */
+  --fs-display:  72px;   /* Display — 800 */
+  --fs-headline: 40px;   /* Headline — 700 */
+  --fs-subhead:  24px;   /* Subhead  — 600 */
+  --fs-body:     16px;   /* Body     — 400 */
+  --fs-caption:  12px;   /* Caption  — 300 */
+  --fs-label:    10px;   /* Label    — 500, tracked, uppercase */
+
+  --lh-display:  0.95;
+  --lh-headline: 1.05;
+  --lh-subhead:  1.20;
+  --lh-body:     1.55;
+  --lh-caption:  1.45;
+
+  --tracking-tight:  -0.025em;
+  --tracking-normal: 0;
+  --tracking-label:  0.18em;   /* Section labels, tracked small caps */
+
+  /* ─── Spacing (4px base) ─────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ─── Radius ─────────────────────────────────────────────────── */
+  --radius-xs:  4px;   /* Small chips, tags */
+  --radius-sm:  8px;   /* Buttons, pills, inputs (subtle) */
+  --radius-md:  12px;  /* Cards, list rows */
+  --radius-lg:  16px;  /* Surface containers */
+  --radius-xl:  20px;  /* Large modals, hero cards */
+  --radius-pill: 9999px;
+  --radius-icon: 2px;  /* Per icon spec — 2px corner radius */
+
+  /* ─── Elevation / shadow ─────────────────────────────────────── */
+  /* Dark UI relies on layered surfaces, not heavy shadows. Glow is amber. */
+  --shadow-sm:    0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.45);
+  --shadow-lg:    0 12px 40px rgba(0,0,0,0.55);
+  --glow-amber:   0 0 0 1px rgba(232,160,32,0.35), 0 8px 32px rgba(232,160,32,0.18);
+  --glow-amber-soft: 0 6px 24px rgba(232,160,32,0.22);
+
+  /* ─── Motion ─────────────────────────────────────────────────── */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:       cubic-bezier(0.7, 0, 0.84, 0);
+  --dur-fast:   120ms;
+  --dur-base:   200ms;
+  --dur-slow:   360ms;
+
+  /* ─── Layout ─────────────────────────────────────────────────── */
+  --container:  1280px;
+  --sidebar-w:  240px;
+  --topbar-h:   72px;
+}
+
+/* ─── Light theme override ─────────────────────────────────────── */
+/* Inverts the surface stack while keeping amber as the brand accent.
+ * Reference: marketing site uses cream-white app surface, slate text,
+ * very subtle warm gradient washes. Bevel becomes a paper plate. */
+:root[data-theme="light"] {
+  --void-black:    #F4F1E8;   /* cream app background — slightly deeper for card lift */
+  --signal-white:  #0A0A0A;   /* primary type now slate-black */
+
+  --surface-l1:    #FFFFFF;   /* card body */
+  --surface-l2:    #EDE9DE;   /* input fields, secondary surfaces — deeper for definition */
+  --surface-l3:    #E2DCCC;   /* hover */
+  --ui-border:     #D8D1BE;   /* stronger so cards have crisp edges */
+  --ui-border-strong: #B8AE94;
+
+  /* Foreground: pushed darker so subtle labels don't melt into cream.
+     fg-2 used for secondary copy (was 0.68 — 4.2:1 on cream, borderline)
+     fg-3 used for tertiary labels (was 0.46 — 2.4:1, fails AA)
+     fg-4 used for hint/disabled (was 0.28 — fails outright) */
+  --fg-1: #0A0A0A;                       /* 19.6:1 on cream */
+  --fg-2: rgba(10,10,10,0.82);           /* ~12:1   — primary secondary */
+  --fg-3: rgba(10,10,10,0.62);           /* ~5.5:1  — tertiary / labels */
+  --fg-4: rgba(10,10,10,0.44);           /* ~3.5:1  — hints (large only) */
+
+  --bg-app:     var(--void-black);
+  --bg-surface: var(--surface-l1);
+  --bg-elevated: var(--surface-l2);
+  --bg-hover:   var(--surface-l3);
+
+  --border-subtle: rgba(10,10,10,0.08);
+  --border:        var(--ui-border);
+  --border-strong: var(--ui-border-strong);
+
+  --shadow-sm:  0 1px 2px rgba(40,30,10,0.08);
+  --shadow-md:  0 4px 16px rgba(40,30,10,0.10);
+  --shadow-lg:  0 12px 40px rgba(40,30,10,0.14);
+}
+
+/* Belt-and-braces: force base text color in light mode in case any
+ * cascade timing pins body color before the theme attr is applied. */
+:root[data-theme="light"], :root[data-theme="light"] body {
+  color: #0A0A0A;
+  background: #F4F1E8;
+}
+:root[data-theme="light"] h1,
+:root[data-theme="light"] h2,
+:root[data-theme="light"] h3,
+:root[data-theme="light"] h4 { color: #0A0A0A; }
+
+/* Force the main container regions to re-baseline color so descendants
+ * with no explicit color (which is most of them) inherit slate-black,
+ * not the dark-mode default white that some intermediate inline style
+ * may have pinned. */
+:root[data-theme="light"] aside,
+:root[data-theme="light"] main,
+:root[data-theme="light"] .app-main,
+:root[data-theme="light"] .surface-bevel,
+:root[data-theme="light"] .surface-bevel--amber {
+  color: #0A0A0A;
+}
+:root[data-theme="light"] .surface-bevel--inset {
+  color: #0A0A0A;
+}
+
+/* Bevel surface — light variant: paper plate with warm top-edge gleam. */
+:root[data-theme="light"] .surface-bevel {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FBF8F1 100%);
+  border: 1px solid #E6E0D0;
+  border-top-color: #F4EFE2;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(40,30,10,0.04),
+    0 1px 0 rgba(40,30,10,0.04),
+    0 8px 24px rgba(40,30,10,0.06);
+}
+:root[data-theme="light"] .surface-bevel::before {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.7) 18%,
+    rgba(255,255,255,0.9) 50%,
+    rgba(255,255,255,0.7) 82%,
+    rgba(255,255,255,0) 100%);
+}
+:root[data-theme="light"] .surface-bevel--amber {
+  background:
+    radial-gradient(140% 80% at 50% -20%, rgba(232,160,32,0.18), transparent 60%),
+    linear-gradient(180deg, #FFFAF0 0%, #FBF5E6 100%);
+  border-color: #EBD9A6;
+  border-top-color: #F4E5BC;
+}
+:root[data-theme="light"] .surface-bevel--amber::before {
+  background: linear-gradient(90deg,
+    rgba(255,210,140,0) 0%,
+    rgba(255,210,140,0.6) 18%,
+    rgba(255,220,160,0.85) 50%,
+    rgba(255,210,140,0.6) 82%,
+    rgba(255,210,140,0) 100%);
+}
+:root[data-theme="light"] .surface-bevel--inset {
+  background: #F4EFE2;
+  border-color: #E2DCCE;
+  border-top-color: #D8D1BE;
+  box-shadow:
+    inset 0 1px 0 rgba(40,30,10,0.06),
+    inset 0 -1px 0 rgba(255,255,255,0.6);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────── */
+html, body {
+  background: var(--bg-app);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ─── Semantic typography ─────────────────────────────────────── */
+.t-display, h1.display {
+  font-family: var(--font-display);
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-tight);
+}
+
+h1, .t-headline {
+  font-family: var(--font-display);
+  font-size: var(--fs-headline);
+  font-weight: 700;
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2, .t-subhead {
+  font-family: var(--font-display);
+  font-size: var(--fs-subhead);
+  font-weight: 600;
+  line-height: var(--lh-subhead);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p, .t-body {
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: var(--fg-2);
+}
+
+.t-caption {
+  font-size: var(--fs-caption);
+  font-weight: 300;
+  line-height: var(--lh-caption);
+  color: var(--fg-3);
+}
+
+.t-label {
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.t-mono, code, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: 0;
+}
+
+.t-amber { color: var(--signal-amber); }
+.t-fg2   { color: var(--fg-2); }
+.t-fg3   { color: var(--fg-3); }
+
+/* ─── Dimensional container ───────────────────────────────────── */
+/* The dashboard's signature surface: a slightly convex plate, lit
+ * from above. Composed of three optical layers, in z-order:
+ *   1. Base fill        — vertical gradient L1+ → L1 (top is ~6% lighter)
+ *   2. Hairline border  — `--ui-border` perimeter
+ *   3. Bevel highlight  — 1px inner-top edge, brightest at center,
+ *                          fading to transparent at the corners.
+ *   4. Floor shadow     — soft outer drop, anchors the plate to the void.
+ *
+ * Use for: dashboard panels, hero cards, primary content surfaces.
+ * Do NOT use for: inline list rows, chips, dense table cells —
+ * the bevel reads as noise at small scale. Minimum size ~280×140.
+ */
+.surface-bevel {
+  position: relative;
+  background: linear-gradient(180deg, #1F1F1F 0%, #161616 6%, #141414 100%);
+  border: 1px solid #2A2A2A;
+  border-top-color: #3A3A3A;
+  border-radius: 12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    inset 0 2px 0 rgba(0,0,0,0.35),
+    0 1px 0 rgba(0,0,0,0.6),
+    0 12px 32px rgba(0,0,0,0.45);
+}
+/* Top-edge gleam — concentrated in the first 2px, hard cutoff. */
+.surface-bevel::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 0;
+  height: 2px;
+  border-radius: 11px 11px 0 0;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.18) 18%,
+    rgba(255,255,255,0.22) 50%,
+    rgba(255,255,255,0.18) 82%,
+    rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+/* Amber variant — warmer plate, amber-tinted bevel. */
+.surface-bevel--amber {
+  background:
+    radial-gradient(140% 80% at 50% -20%, rgba(232,160,32,0.10), transparent 55%),
+    linear-gradient(180deg, #221E17 0%, #181410 6%, #141414 100%);
+  border-color: #3A2F1C;
+  border-top-color: #6A4E1F;
+  box-shadow:
+    inset 0 1px 0 rgba(255,210,140,0.28),
+    inset 0 2px 0 rgba(0,0,0,0.35),
+    0 1px 0 rgba(0,0,0,0.6),
+    0 12px 32px rgba(0,0,0,0.45);
+}
+.surface-bevel--amber::before {
+  background: linear-gradient(90deg,
+    rgba(255,210,140,0) 0%,
+    rgba(255,210,140,0.22) 18%,
+    rgba(255,210,140,0.28) 50%,
+    rgba(255,210,140,0.22) 82%,
+    rgba(255,210,140,0) 100%);
+}
+
+/* Press / active variant — invert the bevel: edge dark, body recessed. */
+.surface-bevel--inset {
+  background: #101010;
+  border-color: #1A1A1A;
+  border-top-color: #0A0A0A;
+  box-shadow:
+    inset 0 1px 0 rgba(0,0,0,0.6),
+    inset 0 -1px 0 rgba(255,255,255,0.04),
+    0 0 0 1px rgba(0,0,0,0);
+}
+.surface-bevel--inset::before {
+  display: none;
+}

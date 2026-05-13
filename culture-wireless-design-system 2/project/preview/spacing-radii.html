@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spacing & Radii</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 16px 20px; display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .col h4 { font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3); margin: 0 0 10px; font-weight: 700; }
+  .spacing-row { display:flex; align-items: center; gap: 10px; margin-bottom: 6px; font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-2); }
+  .bar { background: var(--cw-purple); height: 10px; border-radius: 2px; }
+  .radii-row { display:flex; gap: 10px; align-items: flex-end; }
+  .r-box { width: 56px; height: 56px; background: var(--cw-gradient); display:flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; color:#fff; font-family: var(--cw-font-mono); font-size: 10px; }
+</style>
+</head>
+<body>
+  <div class="col">
+    <h4>Spacing scale</h4>
+    <div class="spacing-row"><span style="width:20px;">4</span><div class="bar" style="width:4px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">8</span><div class="bar" style="width:8px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">16</span><div class="bar" style="width:16px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">24</span><div class="bar" style="width:24px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">32</span><div class="bar" style="width:32px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">48</span><div class="bar" style="width:48px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">64</span><div class="bar" style="width:64px;"></div></div>
+    <div class="spacing-row"><span style="width:20px;">96</span><div class="bar" style="width:96px;"></div></div>
+  </div>
+  <div class="col">
+    <h4>Corner radii</h4>
+    <div class="radii-row">
+      <div class="r-box" style="border-radius: 4px;">4</div>
+      <div class="r-box" style="border-radius: 8px;">8</div>
+      <div class="r-box" style="border-radius: 16px;">16</div>
+      <div class="r-box" style="border-radius: 24px;">24</div>
+      <div class="r-box" style="border-radius: 999px;">pill</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cards</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-2); padding: 18px 20px; display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  .card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--cw-border-1);
+    border-radius: 16px;
+    padding: 18px;
+    /* Bevel: top inner white highlight + bottom inner shadow + outer drop */
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(26, 18, 51, 0.06),
+      0 1px 2px rgba(26, 18, 51, 0.05),
+      0 8px 20px rgba(26, 18, 51, 0.10);
+  }
+
+  .card-dark {
+    background: var(--cw-navy);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+      0 2px 4px rgba(0, 0, 0, 0.20),
+      0 12px 28px rgba(26, 18, 51, 0.35);
+  }
+
+  .card-grad {
+    background: var(--cw-gradient-bg);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.30),
+      inset 0 -1px 0 rgba(31, 16, 64, 0.40),
+      0 2px 4px rgba(79, 61, 122, 0.20),
+      0 12px 32px rgba(139, 105, 193, 0.32);
+  }
+
+  .eyebrow { font-family: var(--cw-font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cw-purple); margin-bottom: 10px; }
+  .card-dark .eyebrow { color: var(--cw-blue); }
+  .card-grad .eyebrow { color: #fff; opacity: 0.9; }
+  .title { font-family: var(--cw-font-sans); font-weight: 700; font-size: 16px; margin: 0 0 6px; }
+  .desc { font-size: 12px; line-height: 1.5; color: var(--cw-fg-3); margin: 0; }
+  .card-dark .desc, .card-grad .desc { color: rgba(255,255,255,0.78); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="eyebrow">Connect</div>
+    <h3 class="title">5G Home Internet</h3>
+    <p class="desc">Reliable connectivity, no contract. Starting at $25/mo.</p>
+  </div>
+  <div class="card card-dark">
+    <div class="eyebrow">Empower</div>
+    <h3 class="title">Digital Literacy</h3>
+    <p class="desc">Free workshops for the communities we serve.</p>
+  </div>
+  <div class="card card-grad">
+    <div class="eyebrow">Expand</div>
+    <h3 class="title">Coverage Map</h3>
+    <p class="desc">Now serving 14 cities with more on the way.</p>
+  </div>
+</body>
+</html>

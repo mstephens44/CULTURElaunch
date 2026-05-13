@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Culture × UNCF — Bridging the Digital Divide</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--cw-font-sans);
+    color: var(--cw-fg-2);
+    background: var(--cw-bg-3);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px 48px;
+  }
+
+  .toolbar {
+    width: 816px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+    color: var(--cw-fg-3);
+    font-family: var(--cw-font-mono); font-size: 11px;
+  }
+  .toolbar .badge {
+    font-family: var(--cw-font-display);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cw-purple);
+    background: rgba(139,105,193,0.08);
+    padding: 4px 10px; border-radius: 999px; font-weight: 700;
+  }
+
+  /* PAGE — 8.5×11 @ 96dpi */
+  .page {
+    width: 816px; height: 1056px;
+    background: var(--cw-bg-2);
+    box-shadow: var(--cw-shadow-4);
+    border-radius: 8px;
+    padding: 22px;
+    display: flex; flex-direction: column; gap: 16px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* HEADER */
+  .hdr {
+    background: var(--cw-navy);
+    color: #fff;
+    border-radius: 20px;
+    padding: 26px 32px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.30),
+      0 12px 28px rgba(26,18,51,0.28);
+  }
+  .hdr::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 100% 0%, rgba(139,105,193,0.40) 0%, transparent 55%),
+      radial-gradient(ellipse at 0% 100%, rgba(119,163,255,0.18) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hdr-row {
+    position: relative;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .hdr-eyebrow {
+    display: inline-block;
+    font-family: var(--cw-font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cw-blue);
+    background: rgba(119,163,255,0.12);
+    border: 1px solid rgba(119,163,255,0.30);
+    padding: 5px 12px; border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .hdr h1 {
+    font-family: var(--cw-font-display);
+    font-size: 38px; font-weight: 700;
+    letter-spacing: 0.02em; line-height: 1.05;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+  }
+  .hdr h1 .accent {
+    background: var(--cw-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hdr p {
+    font-size: 13px; line-height: 1.55;
+    color: rgba(255,255,255,0.78);
+    max-width: 380px; margin: 0;
+  }
+
+  .lockup {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 14px 18px;
+    flex-shrink: 0;
+  }
+  .lockup-mark { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .lockup-mark img { height: 36px; width: auto; }
+  .lockup-mark .uncf-mark {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(139,105,193,0.18);
+    border: 1px solid rgba(139,105,193,0.40);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cw-purple);
+  }
+  .lockup-mark .label {
+    font-family: var(--cw-font-display);
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.7);
+    text-align: center; line-height: 1.2;
+  }
+  .lockup .x {
+    color: rgba(255,255,255,0.4);
+    font-family: var(--cw-font-display);
+    font-size: 14px; font-weight: 700;
+  }
+
+  /* SECTION SHELL */
+  .section {
+    background: #fff;
+    border: 1px solid var(--cw-border-1);
+    border-radius: 20px;
+    padding: 22px 28px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(26,18,51,0.05),
+      0 1px 2px rgba(26,18,51,0.04),
+      0 6px 16px rgba(26,18,51,0.06);
+  }
+  .section-head {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 18px;
+  }
+  .section-head h2 {
+    font-family: var(--cw-font-display);
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--cw-navy);
+    margin: 0;
+  }
+  .section-head .rule {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--cw-border-2), transparent);
+  }
+
+  /* ECOSYSTEM FLOW */
+  .flow {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px; position: relative;
+  }
+  .flow::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: 48px; right: 48px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cw-blue), var(--cw-purple), var(--cw-purple));
+    opacity: 0.30;
+    z-index: 0;
+  }
+  .step { position: relative; z-index: 1; }
+  .step-icon {
+    position: relative;
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--cw-border-1);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      0 6px 14px rgba(26,18,51,0.12);
+    margin-bottom: 14px;
+  }
+  .step:nth-child(1) .step-icon i { color: var(--cw-blue); }
+  .step:nth-child(2) .step-icon i { color: var(--cw-purple); }
+  .step:nth-child(3) .step-icon i { color: #6E5BAE; }
+  .step:nth-child(4) .step-icon i { color: var(--cw-purple); }
+  .step-num {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 22px; height: 22px;
+    border-radius: 999px;
+    background: var(--cw-navy);
+    color: #fff;
+    font-family: var(--cw-font-display);
+    font-size: 9px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(26,18,51,0.30);
+  }
+  .step h3 {
+    font-family: var(--cw-font-sans);
+    font-size: 13px; font-weight: 700;
+    color: var(--cw-fg-1);
+    margin: 0 0 6px;
+  }
+  .step p {
+    font-size: 11.5px; line-height: 1.5;
+    color: var(--cw-fg-3); margin: 0;
+  }
+
+  /* BENTO */
+  .bento {
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .value {
+    background: var(--cw-navy);
+    color: #fff;
+    border-radius: 20px;
+    padding: 26px 28px;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.30),
+      0 12px 28px rgba(26,18,51,0.28);
+  }
+  .value::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 240px; height: 240px;
+    background: radial-gradient(circle, rgba(139,105,193,0.35) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .signal-decor {
+    position: absolute;
+    bottom: -20px; right: -10px;
+    display: flex; align-items: flex-end; gap: 5px;
+    height: 130px; opacity: 0.07;
+    pointer-events: none;
+  }
+  .signal-decor span { width: 10px; background: #fff; border-radius: 3px; }
+  .value h2 {
+    font-family: var(--cw-font-display);
+    font-size: 16px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    margin: 0 0 20px;
+    position: relative;
+  }
+  .value-list {
+    display: flex; flex-direction: column;
+    gap: 16px;
+    position: relative;
+  }
+  .value-item { display: flex; gap: 12px; }
+  .value-dot {
+    width: 6px; height: 6px;
+    border-radius: 999px;
+    background: var(--cw-purple);
+    margin-top: 7px;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(139,105,193,0.7);
+  }
+  .value-item h4 {
+    font-family: var(--cw-font-sans);
+    font-size: 12.5px; font-weight: 700;
+    margin: 0 0 4px; color: #fff;
+  }
+  .value-item p {
+    font-size: 11.5px; line-height: 1.5;
+    color: rgba(255,255,255,0.65);
+    margin: 0;
+  }
+
+  /* DELIVERABLES */
+  .deliv {
+    background: #fff;
+    border: 1px solid var(--cw-border-1);
+    border-radius: 20px;
+    padding: 22px 24px;
+    display: flex; flex-direction: column;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(26,18,51,0.05),
+      0 1px 2px rgba(26,18,51,0.04),
+      0 6px 16px rgba(26,18,51,0.06);
+  }
+  .deliv-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .deliv-head h2 {
+    font-family: var(--cw-font-display);
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--cw-navy); margin: 0;
+  }
+  .deliv-head i { color: var(--cw-border-2); }
+  .deliv-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; flex: 1;
+  }
+  .deliv-card {
+    background: var(--cw-bg-2);
+    border: 1px solid var(--cw-border-1);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.85),
+      inset 0 -1px 0 rgba(26,18,51,0.04);
+  }
+  .icon-pill {
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 8px;
+  }
+  .deliv-card:nth-child(1) .icon-pill { background: rgba(119,163,255,0.16); color: var(--cw-blue); }
+  .deliv-card:nth-child(2) .icon-pill { background: rgba(139,105,193,0.14); color: var(--cw-purple); }
+  .deliv-card:nth-child(3) .icon-pill { background: rgba(255,185,0,0.20); color: #B17F00; }
+  .deliv-card:nth-child(4) .icon-pill { background: rgba(51,36,77,0.10); color: var(--cw-navy); }
+  .deliv-card h4 {
+    font-family: var(--cw-font-sans);
+    font-size: 12.5px; font-weight: 700;
+    color: var(--cw-fg-1); margin: 0 0 4px;
+  }
+  .deliv-card p {
+    font-size: 11px; line-height: 1.45;
+    color: var(--cw-fg-3); margin: 0;
+  }
+
+  /* FOOTER */
+  .ftr {
+    background: var(--cw-navy);
+    color: #fff;
+    border-radius: 20px;
+    padding: 22px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+    position: relative; overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.30),
+      0 12px 28px rgba(26,18,51,0.28);
+  }
+  .ftr::before {
+    content: '';
+    position: absolute; inset: 0 0 0 auto;
+    width: 50%;
+    background: linear-gradient(90deg, transparent, rgba(139,105,193,0.18));
+    pointer-events: none;
+  }
+  .ftr-left { position: relative; }
+  .ftr-left .lead {
+    font-family: var(--cw-font-display);
+    font-size: 18px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin: 0 0 4px;
+  }
+  .ftr-left .lead .accent {
+    background: var(--cw-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .ftr-left p {
+    font-size: 12px; line-height: 1.5;
+    color: rgba(255,255,255,0.65);
+    margin: 0; max-width: 420px;
+  }
+  .ftr-cta {
+    position: relative;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 22px;
+    background: var(--cw-gradient);
+    color: #fff;
+    border-radius: 999px;
+    font-family: var(--cw-font-display);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    box-shadow: var(--cw-shadow-glow);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span>prototype.html · 816 × 1056</span>
+  <span class="badge">Design system reference</span>
+</div>
+
+<div class="page" data-screen-label="01 UNCF Partnership One-Pager">
+
+  <!-- HEADER -->
+  <header class="hdr">
+    <div class="hdr-row">
+      <div class="hdr-left">
+        <span class="hdr-eyebrow">Mission Alignment</span>
+        <h1>Bridging the<br><span class="accent">Digital Divide</span></h1>
+        <p>A strategic partnership empowering HBCU scholars by transforming connectivity into a fundamental right.</p>
+      </div>
+      <div class="lockup">
+        <div class="lockup-mark">
+          <img src="assets/logos/white_logo_transparent_background.png" alt="Culture Wireless">
+          <span class="label">Culture<br>Wireless</span>
+        </div>
+        <span class="x">×</span>
+        <div class="lockup-mark">
+          <div class="uncf-mark"><i data-lucide="graduation-cap" style="width:20px;height:20px;"></i></div>
+          <span class="label">UNCF<br>Network</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ECOSYSTEM FLOW -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Ecosystem Flow</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="step-icon">
+          <i data-lucide="wifi" style="width:22px;height:22px;"></i>
+          <span class="step-num">01</span>
+        </div>
+        <h3>The Pledge</h3>
+        <p>Culture donates bandwidth and a percentage of revenue.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">
+          <i data-lucide="database" style="width:22px;height:22px;"></i>
+          <span class="step-num">02</span>
+        </div>
+        <h3>DSI Hub</h3>
+        <p>Resources pool into the Digital Scholarship Initiative.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">
+          <i data-lucide="network" style="width:22px;height:22px;"></i>
+          <span class="step-num">03</span>
+        </div>
+        <h3>Distribution</h3>
+        <p>UNCF identifies needs across its HBCU network.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">
+          <i data-lucide="users" style="width:22px;height:22px;"></i>
+          <span class="step-num">04</span>
+        </div>
+        <h3>Impact</h3>
+        <p>Scholars receive devices, hotspots, and data.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENTO -->
+  <div class="bento">
+    <section class="value">
+      <div class="signal-decor" aria-hidden="true">
+        <span style="height:24%"></span>
+        <span style="height:38%"></span>
+        <span style="height:54%"></span>
+        <span style="height:68%"></span>
+        <span style="height:82%"></span>
+        <span style="height:100%"></span>
+      </div>
+      <h2>Strategic Value</h2>
+      <div class="value-list">
+        <div class="value-item">
+          <span class="value-dot"></span>
+          <div>
+            <h4>Authentic Connection</h4>
+            <p>Anchors Culture Wireless in the communities we serve from day one.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-dot"></span>
+          <div>
+            <h4>Measurable Impact</h4>
+            <p>Direct line of sight from revenue to scholars served, every quarter.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-dot"></span>
+          <div>
+            <h4>Scaling Mechanism</h4>
+            <p>UNCF's 37 institutions become both impact partners and growth channel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="deliv">
+      <div class="deliv-head">
+        <h2>Year-One Deliverables</h2>
+        <i data-lucide="package" style="width:20px;height:20px;"></i>
+      </div>
+      <div class="deliv-grid">
+        <div class="deliv-card">
+          <div class="icon-pill"><i data-lucide="smartphone" style="width:16px;height:16px;"></i></div>
+          <h4>5,000 Devices</h4>
+          <p>Phones and hotspots distributed via UNCF schools.</p>
+        </div>
+        <div class="deliv-card">
+          <div class="icon-pill"><i data-lucide="signal" style="width:16px;height:16px;"></i></div>
+          <h4>Free Data Plans</h4>
+          <p>12 months unlimited service for every recipient.</p>
+        </div>
+        <div class="deliv-card">
+          <div class="icon-pill"><i data-lucide="book-open" style="width:16px;height:16px;"></i></div>
+          <h4>Literacy Curriculum</h4>
+          <p>On-campus workshops at 10 partner institutions.</p>
+        </div>
+        <div class="deliv-card">
+          <div class="icon-pill"><i data-lucide="trending-up" style="width:16px;height:16px;"></i></div>
+          <h4>$1M Pledge</h4>
+          <p>1% of net revenue routed to the DSI fund.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="ftr">
+    <div class="ftr-left">
+      <p class="lead">Culture <span class="accent">Connects.</span></p>
+      <p>The internet isn't a luxury. It's a necessity. Together with UNCF, we're closing the digital divide — one scholar, one community at a time.</p>
+    </div>
+    <a href="#" class="ftr-cta">Schedule a Call <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></a>
+  </footer>
+</div>
+
+<script>lucide.createIcons();</script>
+</body>
+</html>

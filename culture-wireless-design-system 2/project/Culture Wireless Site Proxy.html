@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Culture Wireless — Site Proxy</title>
+<link rel="stylesheet" href="colors_and_type.css" />
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--cw-bg-2); color: var(--cw-fg-1); font-family: var(--cw-font-sans); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+  /* ===== Layout ===== */
+  .app { min-height: 100vh; display: flex; flex-direction: column; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 32px; width: 100%; }
+
+  /* ===== Top Nav ===== */
+  .nav-wrap { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.86); backdrop-filter: blur(12px); border-bottom: 1px solid var(--cw-border-1); }
+  :root[data-theme="dark"] .nav-wrap { background: rgba(26,18,51,0.78); }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; max-width: 1280px; margin: 0 auto; gap: 24px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; }
+  .brand img { height: 38px; width: auto; }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a {
+    padding: 10px 16px; border-radius: var(--cw-radius-pill);
+    font-family: var(--cw-font-display); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cw-fg-2); transition: all var(--cw-dur-fast) var(--cw-ease-out);
+  }
+  .nav-links a:hover { color: var(--cw-purple); background: rgba(139,105,193,0.08); }
+  .nav-links a.active { color: var(--cw-white); background: var(--cw-navy); }
+  :root[data-theme="dark"] .nav-links a.active { background: var(--cw-purple); }
+
+  /* ===== Theme toggle ===== */
+  .theme-toggle {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid var(--cw-border-2);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--cw-fg-2); background: var(--cw-bg-1);
+    transition: all var(--cw-dur-fast) var(--cw-ease-out);
+  }
+  .theme-toggle:hover { color: var(--cw-purple); border-color: var(--cw-purple); }
+  .theme-toggle .ico { width: 16px; height: 16px; stroke-width: 2; }
+  .theme-toggle .sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .sun { display: inline-block; }
+  :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+
+  /* ===== Buttons ===== */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 22px; border-radius: var(--cw-radius-pill);
+    font-family: var(--cw-font-display); font-weight: 600;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    transition: all var(--cw-dur-base) var(--cw-ease-out); white-space: nowrap; }
+  .btn-primary { background: var(--cw-gradient); color: var(--cw-white); box-shadow: var(--cw-shadow-glow); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(139,105,193,0.45); }
+  .btn-ghost { border: 1px solid var(--cw-border-2); color: var(--cw-fg-1); background: transparent; }
+  .btn-ghost:hover { border-color: var(--cw-navy); background: var(--cw-bg-2); }
+  .btn-sm { padding: 8px 14px; font-size: 10px; }
+  .btn .ico { width: 14px; height: 14px; stroke-width: 2; }
+
+  /* ===== Page Stand-In ===== */
+  .page-stand { padding: 80px 0 0; flex: 1; }
+  .page-stand > .container { padding-left: 32px; padding-right: 32px; }
+  .page-stand .breadcrumb {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--cw-font-mono); font-size: 11px;
+    color: var(--cw-fg-3); letter-spacing: 0.04em;
+    margin-bottom: 24px;
+  }
+  .page-stand .breadcrumb .slash { color: var(--cw-purple); }
+
+  .page-title-row {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap; margin-bottom: 12px;
+  }
+  .page-stand h1.cw-display {
+    font-size: clamp(48px, 7vw, 88px);
+    background: var(--cw-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 0.95;
+  }
+  .page-stand .lede {
+    max-width: 620px; margin-top: 24px;
+    font-size: 18px; line-height: 1.55; color: var(--cw-fg-2);
+  }
+  .page-stand .index-tag {
+    font-family: var(--cw-font-mono); font-size: 11px;
+    color: var(--cw-purple); letter-spacing: 0.18em;
+    text-transform: uppercase; padding-top: 18px;
+  }
+
+  /* Sections placeholder grid */
+  .sections-grid {
+    margin-top: 56px;
+    display: grid; grid-template-columns: 200px 1fr; gap: 32px 40px;
+    border-top: 1px solid var(--cw-border-1); padding-top: 40px;
+  }
+  .sections-grid .heading {
+    font-family: var(--cw-font-display); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cw-fg-3); padding-top: 6px;
+  }
+
+  .section-list { display: flex; flex-direction: column; gap: 14px; }
+  .section-row {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    align-items: center; gap: 20px;
+    padding: 18px 22px;
+    background: var(--cw-bg-1);
+    border: 1px solid var(--cw-border-1);
+    border-radius: var(--cw-radius-md);
+    transition: all var(--cw-dur-fast) var(--cw-ease-out);
+  }
+  .section-row:hover { border-color: var(--cw-purple); transform: translateX(4px); box-shadow: var(--cw-shadow-2); }
+  .section-row .num {
+    font-family: var(--cw-font-mono); font-size: 12px;
+    color: var(--cw-purple); letter-spacing: 0.04em;
+  }
+  .section-row .name {
+    font-family: var(--cw-font-display); font-size: 14px;
+    font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--cw-fg-1);
+  }
+  .section-row .meta {
+    font-family: var(--cw-font-sans); font-size: 12px;
+    color: var(--cw-fg-3); margin-top: 4px;
+  }
+  .section-row .arrow { color: var(--cw-fg-4); }
+
+  /* ===== Real page flow ===== */
+  .page-flow { margin-top: 80px; display: flex; flex-direction: column; }
+  .page-stand.is-home { padding: 0; }
+  .page-stand.is-home .page-flow { margin-top: 0; }
+  .page-stand.is-home .page-section:first-child { padding-top: 0; }
+  /* Hero section bleeds — kill its page-section padding */
+  .page-section.has-hero { padding: 0 !important; background: transparent !important; }
+  .page-section.has-hero > * { max-width: none; }
+  .wf-hero {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(139,105,193,0.08), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,185,0,0.05), transparent 50%);
+  }
+  .page-section { padding: 72px 32px; }
+  .page-section > * { max-width: 1180px; margin: 0 auto; }
+  /* Alternate section backgrounds for natural rhythm */
+  .page-section:nth-child(even) { background: var(--cw-bg-2); }
+  /* First section sits flush under the page header */
+  .page-section:first-child { padding-top: 56px; }
+
+  /* ===== Legacy wireframe block (unused, kept for safety) ===== */
+  .wf-section {
+    margin-top: 16px;
+    background: var(--cw-bg-1);
+    border: 1px solid var(--cw-border-1);
+    border-radius: var(--cw-radius-lg);
+    overflow: hidden;
+  }
+  .wf-head {
+    display: grid; grid-template-columns: 60px 1fr;
+    align-items: center; gap: 20px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--cw-border-1);
+    background: var(--cw-bg-2);
+  }
+  .wf-head .num {
+    font-family: var(--cw-font-mono); font-size: 12px;
+    color: var(--cw-purple); letter-spacing: 0.04em;
+  }
+  .wf-head .name {
+    font-family: var(--cw-font-display); font-size: 14px;
+    font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--cw-fg-1);
+  }
+  .wf-head .meta { font-size: 12px; color: var(--cw-fg-3); margin-top: 4px; }
+  .wf-body { padding: 28px; background: var(--cw-bg-1); }
+
+  /* ===== Wireframe primitives — mid-fidelity ===== */
+  .wf { --w: rgba(51,36,77,0.08); --w2: rgba(51,36,77,0.14); --w3: rgba(51,36,77,0.22); }
+  :root[data-theme="dark"] .wf { --w: rgba(255,255,255,0.06); --w2: rgba(255,255,255,0.12); --w3: rgba(255,255,255,0.22); }
+  .wf-h2 { font-family: var(--cw-font-display); font-size: 22px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--cw-fg-1); margin-bottom: 4px; }
+  .wf-eyebrow { font-family: var(--cw-font-display); font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cw-purple); margin-bottom: 8px; }
+  .wf-sub { font-size: 14px; color: var(--cw-fg-3); line-height: 1.5; max-width: 560px; }
+  .wf-text { font-size: 14px; color: var(--cw-fg-2); line-height: 1.55; }
+  .wf-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--w2); font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-2); }
+  .wf-pill.dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--cw-purple); }
+  .wf-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: 6px; background: var(--cw-purple); color: white; font-family: var(--cw-font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid var(--cw-purple); cursor: pointer; }
+  .wf-btn.ghost { background: transparent; border-color: var(--cw-border-2); color: var(--cw-fg-1); }
+  .wf-btn.gradient { background: var(--cw-gradient); border-color: transparent; }
+  .wf-img { background: var(--w); border: 1px dashed var(--w3); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--cw-fg-4); font-family: var(--cw-font-mono); font-size: 11px; min-height: 120px; padding: 12px; text-align: center; }
+  .wf-card { background: var(--cw-bg-1); border: 1px solid var(--cw-border-1); border-radius: var(--cw-radius-md); padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .wf-card.feat { border-color: var(--cw-purple); box-shadow: 0 0 0 1px var(--cw-purple), var(--cw-shadow-2); position: relative; }
+  .wf-card.feat::before { content: 'MOST POPULAR'; position: absolute; top: -10px; left: 22px; background: var(--cw-purple); color: white; font-family: var(--cw-font-display); font-size: 9px; letter-spacing: 0.18em; padding: 4px 10px; border-radius: 4px; }
+  .wf-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .wf-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .wf-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .wf-grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .wf-stack { display: flex; flex-direction: column; gap: 12px; }
+  .wf-stack.tight { gap: 6px; }
+  .wf-price { font-family: var(--cw-font-display); font-size: 44px; font-weight: 700; line-height: 1; color: var(--cw-fg-1); }
+  .wf-price small { font-family: var(--cw-font-sans); font-size: 13px; font-weight: 400; color: var(--cw-fg-3); margin-left: 4px; letter-spacing: 0; text-transform: none; }
+  .wf-feature { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--cw-fg-2); }
+  .wf-feature::before { content: '✓'; color: var(--cw-purple); font-weight: 700; flex-shrink: 0; }
+  .wf-input { display: block; width: 100%; height: 44px; border-radius: 6px; background: var(--cw-bg-2); border: 1px solid var(--cw-border-2); padding: 0 14px; font-family: var(--cw-font-sans); font-size: 14px; color: var(--cw-fg-1); }
+  .wf-input::placeholder { color: var(--cw-fg-4); }
+  .wf-input.area { height: 120px; padding: 12px 14px; resize: vertical; }
+  .wf-label { font-family: var(--cw-font-display); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cw-fg-3); margin-bottom: 6px; display: block; }
+  .wf-map { aspect-ratio: 16/9; background: linear-gradient(135deg, rgba(51,36,77,0.06), rgba(139,105,193,0.05)); border: 1px solid var(--cw-border-1); border-radius: 12px; position: relative; overflow: hidden; }
+  .wf-map::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--w2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--w2) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.6;
+  }
+  .wf-map .pin { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--cw-purple); box-shadow: 0 0 0 6px rgba(139,105,193,0.22); }
+  .wf-map .pin.y { background: var(--cw-yellow); box-shadow: 0 0 0 6px rgba(255,185,0,0.22); }
+  .wf-map .lbl { position: absolute; font-family: var(--cw-font-mono); font-size: 10px; color: var(--cw-fg-2); background: var(--cw-bg-1); border: 1px solid var(--cw-border-1); padding: 3px 8px; border-radius: 4px; }
+  .wf-list { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--cw-border-1); border-radius: var(--cw-radius-md); overflow: hidden; }
+  .wf-list > div { padding: 16px 18px; border-bottom: 1px solid var(--cw-border-1); display: flex; align-items: center; gap: 14px; background: var(--cw-bg-1); }
+  .wf-list > div:last-child { border-bottom: none; }
+  .wf-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--w2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--cw-font-display); font-size: 13px; color: var(--cw-fg-3); }
+  .wf-icon { width: 40px; height: 40px; border-radius: 8px; background: rgba(139,105,193,0.12); color: var(--cw-purple); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .wf-icon i { width: 20px; height: 20px; }
+  .wf-icon.lg { width: 56px; height: 56px; }
+  .wf-icon.lg i { width: 28px; height: 28px; }
+  .wf-stat { font-family: var(--cw-font-display); font-size: 32px; font-weight: 700; color: var(--cw-fg-1); line-height: 1; }
+  .wf-faq-q { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--cw-border-1); cursor: pointer; }
+  .wf-faq-q .q { font-family: var(--cw-font-sans); font-size: 15px; font-weight: 600; color: var(--cw-fg-1); }
+  .wf-faq-q .plus { color: var(--cw-fg-3); font-size: 18px; }
+  .wf-channel { aspect-ratio: 1.2; background: var(--cw-bg-2); border: 1px solid var(--cw-border-1); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--cw-fg-3); font-family: var(--cw-font-display); font-size: 11px; font-weight: 600; padding: 4px; text-align: center; }
+
+  @media (max-width: 700px) {
+    .wf-grid-3, .wf-grid-2, .wf-grid-4 { grid-template-columns: 1fr; }
+    .wf-grid-6 { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  /* Page jump links */
+  .also-row {
+    margin-top: 0; padding: 56px 0; border-top: 1px solid var(--cw-border-1);
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .also-row .label {
+    font-family: var(--cw-font-display); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--cw-fg-3);
+  }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: var(--cw-radius-pill);
+    background: var(--cw-bg-1); border: 1px solid var(--cw-border-1);
+    font-family: var(--cw-font-sans); font-size: 13px; color: var(--cw-fg-2);
+    transition: all var(--cw-dur-fast) var(--cw-ease-out);
+  }
+  .chip:hover { color: var(--cw-purple); border-color: var(--cw-purple); background: rgba(139,105,193,0.06); }
+
+  /* Hero (Home only) */
+  .hero {
+    background: var(--cw-gradient-bg);
+    color: var(--cw-white);
+    padding: 96px 32px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  }
+  .hero-inner { position: relative; max-width: 1180px; margin: 0 auto; }
+  .hero .eyebrow-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: var(--cw-radius-pill);
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+    font-family: var(--cw-font-display); font-size: 10px;
+    font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cw-blue);
+  }
+  .hero .eyebrow-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cw-yellow); box-shadow: 0 0 0 3px rgba(255,185,0,0.2); }
+  .hero h1.cw-display {
+    font-size: clamp(56px, 8vw, 104px);
+    color: var(--cw-white);
+    margin-top: 22px;
+    line-height: 0.95;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, #B07BC9, #FFB900);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .lede { color: rgba(255,255,255,0.75); max-width: 540px; margin-top: 22px; font-size: 18px; line-height: 1.55; }
+  .hero .row { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+
+  /* ===== Footer ===== */
+  .footer {
+    background: var(--cw-navy);
+    color: rgba(255,255,255,0.72);
+    padding: 48px 32px 28px;
+    margin-top: auto;
+  }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .footer .triplet {
+    font-family: var(--cw-font-display); font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .footer .triplet .accent { color: var(--cw-yellow); }
+  .footer .copyright { font-family: var(--cw-font-mono); font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  /* ===== Site Map (overview block, optional) ===== */
+  .sitemap-strip {
+    background: var(--cw-bg-1);
+    border-top: 1px solid var(--cw-border-1);
+    border-bottom: 1px solid var(--cw-border-1);
+    padding: 28px 32px;
+  }
+  .sitemap-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .sitemap-inner .label {
+    font-family: var(--cw-font-display); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--cw-fg-3);
+  }
+  .sitemap-inner .crumbs {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--cw-font-mono); font-size: 12px;
+  }
+  .sitemap-inner .crumbs a { color: var(--cw-fg-3); }
+  .sitemap-inner .crumbs a:hover { color: var(--cw-purple); }
+  .sitemap-inner .crumbs .sep { color: var(--cw-border-2); }
+  .sitemap-inner .crumbs .here { color: var(--cw-purple); font-weight: 600; }
+
+  @media (max-width: 800px) {
+    .nav-links { display: none; }
+    .sections-grid { grid-template-columns: 1fr; gap: 16px; }
+    .section-row { grid-template-columns: 50px 1fr auto; }
+    .page-stand { padding: 56px 0 0; }
+    .page-section { padding: 48px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <!-- Filled by JS -->
+</div>
+
+<script type="application/json" id="sitemap">
+{
+  "/": {
+    "label": "Home",
+    "index": "00",
+    "title": "CULTURE\nCONNECTS.",
+    "lede": "Connect · Empower · Expand. We're closing the digital divide for the unserved, underserved, and unconnected.",
+    "isHome": true,
+    "sections": [
+      { "name": "Hero", "meta": "Brand statement + primary CTA" },
+      { "name": "Coverage Map", "meta": "Where we're live · ZIP availability check" },
+      { "name": "We Are Culture Wireless", "meta": "Mission, vision, pillars" },
+      { "name": "ConnectIQ App", "meta": "Network management on every device" },
+      { "name": "Plans Snapshot", "meta": "Fiber · Mobile entry points" },
+      { "name": "Testimonials", "meta": "Voices from the communities we serve" },
+      { "name": "Sign-Up CTA", "meta": "Free TV with new fiber installs" }
+    ]
+  },
+  "/fiber": {
+    "label": "Home Internet",
+    "index": "01",
+    "title": "HOME\nINTERNET.",
+    "lede": "Real fiber. Honest pricing. No throttling, no surprise fees, no contracts.",
+    "sections": [
+      { "name": "Plan Tiers", "meta": "100 Mbps · 500 Mbps · 1 Gig" },
+      { "name": "What's Included", "meta": "Router · install · support" },
+      { "name": "MDU & HOA", "meta": "Bulk fiber for property managers" },
+      { "name": "Business Fiber", "meta": "Static IPs, SLA-backed" },
+      { "name": "FAQ" }
+    ]
+  },
+  "/mobile": {
+    "label": "Mobile",
+    "index": "02",
+    "title": "MOBILE.",
+    "lede": "Bring your phone. Keep your number. Unlimited 5G on the nation's most reliable network.",
+    "sections": [
+      { "name": "Plan Tiers", "meta": "Talk+Text · Everyday · Unlimited" },
+      { "name": "Bring Your Own Device", "meta": "iPhone · Pixel · Galaxy" },
+      { "name": "Activate a SIM", "meta": "Step-by-step activation" },
+      { "name": "International", "meta": "Long-distance & roaming" },
+      { "name": "FAQ" }
+    ]
+  },
+  "/about": {
+    "label": "About",
+    "index": "03",
+    "title": "WE ARE\nCULTURE.",
+    "lede": "Built block by block in Georgia and the Lower 48. A telecom for the communities we serve.",
+    "sections": [
+      { "name": "Our Story" },
+      { "name": "Mission · Vision · Pillars" },
+      { "name": "Leadership Team" },
+      { "name": "Press & News" },
+      { "name": "Careers" }
+    ]
+  },
+  "/support": {
+    "label": "Support",
+    "index": "04",
+    "title": "SUPPORT.",
+    "lede": "Real people, based in Atlanta. Average answer time under 90 seconds.",
+    "sections": [
+      { "name": "Contact Channels", "meta": "Call · Text · Email" },
+      { "name": "FAQ" },
+      { "name": "Network Status" },
+      { "name": "Self-Service Help Articles" },
+      { "name": "Send a Message", "meta": "Contact form" }
+    ]
+  },
+  "/account": {
+    "label": "My Account",
+    "index": "05",
+    "title": "MY\nACCOUNT.",
+    "lede": "Sign in to manage your service, pay your bill, or check your usage.",
+    "sections": [
+      { "name": "Sign In" },
+      { "name": "Pay My Bill" },
+      { "name": "Usage Dashboard" },
+      { "name": "Account Settings" }
+    ]
+  }
+}
+</script>
+
+<script>
+const sitemap = JSON.parse(document.getElementById('sitemap').textContent);
+const ROUTES = Object.keys(sitemap);
+
+function currentRoute() {
+  const h = (window.location.hash || '#/').replace(/^#/, '');
+  return sitemap[h] ? h : '/';
+}
+
+function pageNav(active) {
+  const items = ROUTES.filter(r => r !== '/').map(r => {
+    const cls = (r === active) ? 'active' : '';
+    return `<a href="#${r}" class="${cls}">${sitemap[r].label}</a>`;
+  }).join('');
+  return `
+    <div class="nav-wrap">
+      <nav class="nav">
+        <a href="#/" class="brand" aria-label="Culture Wireless home">
+          <img src="assets/logos/full_logo_transparent_background_250.png" alt="Culture Wireless" />
+        </a>
+        <div class="nav-links">${items}</div>
+        <div class="nav-actions">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+            <i data-lucide="moon" class="ico moon"></i>
+            <i data-lucide="sun" class="ico sun"></i>
+          </button>
+          <a href="#/account" class="btn btn-ghost btn-sm"><i data-lucide="user"></i> Account</a>
+          <a href="#/fiber" class="btn btn-primary btn-sm">Check Availability</a>
+        </div>
+      </nav>
+    </div>
+  `;
+}
+
+function pageSitemapStrip(active) {
+  const here = sitemap[active];
+  const others = ROUTES.filter(r => r !== active).slice(0, 5);
+  const crumbs = others.map(r => `<a href="#${r}">${sitemap[r].label}</a><span class="sep">·</span>`).join('');
+  return `
+    <div class="sitemap-strip">
+      <div class="sitemap-inner">
+        <span class="label">Site Proxy · ${here.index} of ${String(ROUTES.length-1).padStart(2,'0')}</span>
+        <div class="crumbs">
+          <span class="here">${here.label.toUpperCase()}</span>
+          <span class="sep">·</span>
+          ${crumbs}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function heroBlock(here) {
+  return `
+    <section class="hero">
+      <div class="hero-inner">
+        <span class="eyebrow-pill"><span class="dot"></span>Connect · Empower · Expand</span>
+        <h1 class="cw-display"><span class="grad">CULTURE</span><br/>CONNECTS.</h1>
+        <p class="lede">${here.lede}</p>
+        <div class="row">
+          <a href="#/fiber" class="btn btn-primary">Check Availability <i data-lucide="arrow-up-right"></i></a>
+          <a href="#/about" class="btn btn-ghost" style="border-color: rgba(255,255,255,0.3); color: white;">About Culture <i data-lucide="arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+// Wireframe renderers — keyed by section name. Returns mid-fidelity HTML.
+const WF = {
+  // ===== HOME =====
+  'Hero': () => `
+    <div class="wf wf-hero">
+      <div class="wf-stack" style="position: relative; max-width: 1180px; margin: 0 auto; padding: 96px 32px 80px;">
+        <span class="wf-pill dot" style="background: rgba(139,105,193,0.14); color: var(--cw-purple); align-self: flex-start;">CONNECT · EMPOWER · EXPAND</span>
+        <h2 class="wf-h2" style="font-size: clamp(48px, 7vw, 88px); line-height: 1.0; max-width: 920px; margin: 12px 0; letter-spacing: -0.01em; text-transform: none;">Speed you can trust. <span style="color: var(--cw-purple);">Service that shows up.</span></h2>
+        <p class="wf-text" style="font-size: 18px; max-width: 600px; line-height: 1.55;">Real fiber, real 5G, and real people answering the phone. Built block by block for the unserved, underserved, and unconnected.</p>
+        <div class="wf-row" style="margin-top: 20px;">
+          <button class="wf-btn gradient">Check Availability →</button>
+          <button class="wf-btn ghost">See Plans</button>
+        </div>
+        <div class="wf-row" style="gap: 48px; margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--cw-border-1);">
+          <div><div class="wf-stat" style="font-size: 28px;">120+</div><div style="font-size: 11px; color: var(--cw-fg-3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px;">Communities served</div></div>
+          <div><div class="wf-stat" style="font-size: 28px;">99.9%</div><div style="font-size: 11px; color: var(--cw-fg-3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px;">Network uptime</div></div>
+          <div><div class="wf-stat" style="font-size: 28px;">&lt; 90s</div><div style="font-size: 11px; color: var(--cw-fg-3); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 4px;">Avg. answer time</div></div>
+        </div>
+      </div>
+    </div>`,
+
+  'Coverage Map': () => `
+    <div class="wf wf-grid-2">
+      <div class="wf-stack">
+        <div class="wf-eyebrow">Find your address</div>
+        <h3 class="wf-h2" style="font-size: 26px;">Are we in your neighborhood?</h3>
+        <p class="wf-sub">Enter your ZIP code to see fiber and 5G availability. We're rolling out new blocks every week.</p>
+        <div class="wf-stack tight" style="margin-top: 8px;">
+          <label class="wf-label">ZIP Code</label>
+          <div class="wf-row" style="gap: 8px;">
+            <input class="wf-input" placeholder="e.g. 30303" style="flex: 1;" />
+            <button class="wf-btn">Check</button>
+          </div>
+          <div class="wf-row" style="gap: 16px; margin-top: 8px;">
+            <span class="wf-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cw-purple);"></span> Live now</span>
+            <span class="wf-pill"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--cw-yellow);"></span> Building soon</span>
+          </div>
+        </div>
+      </div>
+      <div class="wf-map">
+        <span class="lbl" style="top: 18%; left: 22%;">Atlanta</span><span class="pin" style="top: 24%; left: 28%;"></span>
+        <span class="lbl" style="top: 42%; left: 48%;">Macon</span><span class="pin" style="top: 48%; left: 54%;"></span>
+        <span class="lbl" style="top: 65%; left: 30%;">Albany</span><span class="pin y" style="top: 71%; left: 36%;"></span>
+        <span class="lbl" style="top: 30%; left: 70%;">Savannah</span><span class="pin" style="top: 36%; left: 76%;"></span>
+        <span class="lbl" style="top: 78%; left: 62%;">Valdosta</span><span class="pin y" style="top: 84%; left: 68%;"></span>
+      </div>
+    </div>`,
+
+  'We Are Culture Wireless': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">About us</div>
+      <h3 class="wf-h2" style="font-size: 28px;">A telecom for the communities we serve.</h3>
+      <p class="wf-sub" style="max-width: 720px;">We're not a big-box carrier. We're operators, builders, and neighbors closing the digital divide one block at a time.</p>
+      <div class="wf-grid-3" style="margin-top: 20px;">
+        <div class="wf-card"><div class="wf-icon"><i data-lucide="radio-tower"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Connect</div><div class="wf-text" style="font-size: 13px;">Reliable fiber and 5G where the big carriers won't go.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="users"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Empower</div><div class="wf-text" style="font-size: 13px;">Local jobs, local techs, local accountability.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="globe"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Expand</div><div class="wf-text" style="font-size: 13px;">Bringing high-speed internet to every block we touch.</div></div>
+      </div>
+    </div>`,
+
+  'ConnectIQ App': () => `
+    <div class="wf wf-grid-2" style="align-items: center;">
+      <div class="wf-stack">
+        <div class="wf-eyebrow">ConnectIQ</div>
+        <h3 class="wf-h2" style="font-size: 28px;">Manage your network from your pocket.</h3>
+        <p class="wf-sub">Pause kid devices at bedtime. Run speed tests. See what's connected. Pay your bill in two taps.</p>
+        <ul class="wf-stack tight" style="list-style: none; padding: 0; margin-top: 8px;">
+          <li class="wf-feature">Real-time speed and outage alerts</li>
+          <li class="wf-feature">Per-device parental controls</li>
+          <li class="wf-feature">One-tap bill pay and autopay</li>
+          <li class="wf-feature">24/7 chat with Atlanta-based support</li>
+        </ul>
+        <div class="wf-row" style="margin-top: 12px;">
+          <button class="wf-btn ghost"><i data-lucide="apple" style="width:14px;height:14px;"></i> App Store</button>
+          <button class="wf-btn ghost"><i data-lucide="play" style="width:14px;height:14px;"></i> Google Play</button>
+        </div>
+      </div>
+      <div class="wf-img" style="min-height: 320px; aspect-ratio: 9/16; max-width: 240px; margin: 0 auto;">App preview<br/>(phone mockup)</div>
+    </div>`,
+
+  'Plans Snapshot': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Pick your service</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Three ways to connect.</h3>
+      <div class="wf-grid-2" style="margin-top: 12px;">
+        <div class="wf-card"><div class="wf-icon lg"><i data-lucide="wifi"></i></div><div style="font-family: var(--cw-font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Home Internet</div><div class="wf-price" style="font-size: 32px;">$49<small>/mo</small></div><div class="wf-text" style="font-size: 13px;">Fiber to the home. 100 Mbps to 1 Gig. No contracts.</div><button class="wf-btn">Shop fiber →</button></div>
+        <div class="wf-card"><div class="wf-icon lg"><i data-lucide="smartphone"></i></div><div style="font-family: var(--cw-font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Mobile</div><div class="wf-price" style="font-size: 32px;">$25<small>/line</small></div><div class="wf-text" style="font-size: 13px;">Bring your phone, keep your number. Unlimited 5G.</div><button class="wf-btn">Shop mobile →</button></div>
+      </div>
+    </div>`,
+
+  'Testimonials': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">From our customers</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Voices from the block.</h3>
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card"><div style="font-size: 22px; color: var(--cw-purple); line-height: 1;">"</div><div class="wf-text" style="font-size: 14px; flex: 1;">Got fiber installed Tuesday. Watched my granddaughter's recital live in 4K Wednesday. That's it. That's the review.</div><div class="wf-row" style="gap: 10px; align-items: center; margin-top: 8px;"><div class="wf-avatar">D</div><div><div style="font-weight: 600; font-size: 14px;">Diane M.</div><div style="font-size: 12px; color: var(--cw-fg-3);">East Point, GA</div></div></div></div><div class="wf-card"><div style="font-size: 22px; color: var(--cw-purple); line-height: 1;">"</div><div class="wf-text" style="font-size: 14px; flex: 1;">My old carrier dropped me on every business call. Switched to Culture, haven't had a dead zone since.</div><div class="wf-row" style="gap: 10px; align-items: center; margin-top: 8px;"><div class="wf-avatar">M</div><div><div style="font-weight: 600; font-size: 14px;">Marcus T.</div><div style="font-size: 12px; color: var(--cw-fg-3);">Atlanta, GA</div></div></div></div><div class="wf-card"><div style="font-size: 22px; color: var(--cw-purple); line-height: 1;">"</div><div class="wf-text" style="font-size: 14px; flex: 1;">When the storm knocked out power, their tech was on my street the next morning. Try getting that from a 1-800.</div><div class="wf-row" style="gap: 10px; align-items: center; margin-top: 8px;"><div class="wf-avatar">R</div><div><div style="font-weight: 600; font-size: 14px;">Rosa B.</div><div style="font-size: 12px; color: var(--cw-fg-3);">Macon, GA</div></div></div></div>
+      </div>
+    </div>`,
+
+  'Sign-Up CTA': () => `
+    <div class="wf" style="background: var(--cw-gradient-bg); color: white; border-radius: 16px; padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+      <span class="wf-pill" style="background: rgba(255,255,255,0.12); color: var(--cw-yellow); border: 1px solid rgba(255,255,255,0.2);">FREE TV INSTALL</span>
+      <h3 style="font-family: var(--cw-font-display); font-size: 36px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; max-width: 640px; line-height: 1.1; margin: 0;">Sign up for fiber, get streaming TV on us.</h3>
+      <p style="opacity: 0.78; max-width: 520px; font-size: 15px; line-height: 1.5;">New fiber installs through May get six months of streaming TV included. No catch, no contract.</p>
+      <div class="wf-row" style="justify-content: center; margin-top: 8px;">
+        <button class="wf-btn" style="background: var(--cw-yellow); border-color: var(--cw-yellow); color: var(--cw-navy);">Claim Offer →</button>
+        <button class="wf-btn ghost" style="border-color: rgba(255,255,255,0.3); color: white;">Talk to a Rep</button>
+      </div>
+    </div>`,
+
+  // ===== FIBER =====
+  'Plan Tiers': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Pricing</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Real fiber. No surprise fees.</h3>
+      <div class="wf-grid-3" style="margin-top: 16px;">
+        <div class="wf-card "><div class="wf-eyebrow" style="margin: 0;">Streaming + work from home</div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Connect 100</div><div style="font-family: var(--cw-font-mono); font-size: 12px; color: var(--cw-purple);">100 Mbps · symmetric</div><div class="wf-price">$49<small>/mo</small></div><div class="wf-feature">100 Mbps symmetric</div><div class="wf-feature">Wi-Fi 6 router included</div><div class="wf-feature">Free pro install</div><div class="wf-feature">24/7 local support</div><div class="wf-feature">No data caps, ever</div><button class="wf-btn " style="margin-top: 8px;">Choose Connect 100</button></div><div class="wf-card feat"><div class="wf-eyebrow" style="margin: 0;">Whole household</div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Connect 500</div><div style="font-family: var(--cw-font-mono); font-size: 12px; color: var(--cw-purple);">500 Mbps · symmetric</div><div class="wf-price">$69<small>/mo</small></div><div class="wf-feature">500 Mbps symmetric</div><div class="wf-feature">Mesh Wi-Fi for 2,500 sq ft</div><div class="wf-feature">Priority support</div><div class="wf-feature">Static IP available</div><div class="wf-feature">No throttling, no contracts</div><button class="wf-btn gradient" style="margin-top: 8px;">Choose Connect 500</button></div><div class="wf-card "><div class="wf-eyebrow" style="margin: 0;">Power users + creators</div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Culture Gig</div><div style="font-family: var(--cw-font-mono); font-size: 12px; color: var(--cw-purple);">1,000 Mbps · symmetric</div><div class="wf-price">$89<small>/mo</small></div><div class="wf-feature">1 Gig symmetric</div><div class="wf-feature">Whole-home mesh</div><div class="wf-feature">Same-day dispatch</div><div class="wf-feature">Free static IP</div><div class="wf-feature">Gamer-grade latency</div><button class="wf-btn " style="margin-top: 8px;">Choose Culture Gig</button></div>
+      </div>
+      <p class="wf-sub" style="text-align: center; margin-top: 8px;">All prices include taxes and equipment. No promo pricing that doubles in 12 months.</p>
+    </div>`,
+
+  "What's Included": () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">In every plan</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Everything you need. Nothing you don't.</h3>
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card"><div class="wf-icon"><i data-lucide="router"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Wi-Fi 6 Router</div><div class="wf-text" style="font-size: 13px;">Mesh-ready, replaced every 3 years.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="wrench"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Pro Install</div><div class="wf-text" style="font-size: 13px;">Free, scheduled within 5 days.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="headphones"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Local Support</div><div class="wf-text" style="font-size: 13px;">Atlanta-based, 24/7, < 90s avg.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="shield-check"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">No Caps</div><div class="wf-text" style="font-size: 13px;">Use the internet like the internet.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="gauge"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Speed Guarantee</div><div class="wf-text" style="font-size: 13px;">Or your monthly bill is on us.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="leaf"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">No Contracts</div><div class="wf-text" style="font-size: 13px;">Cancel any time, keep the gear.</div></div>
+      </div>
+    </div>`,
+
+  'MDU & HOA': () => `
+    <div class="wf wf-grid-2" style="align-items: center;">
+      <div class="wf-img" style="min-height: 240px;">Apartment building<br/>(photo placeholder)</div>
+      <div class="wf-stack">
+        <div class="wf-eyebrow">For property managers</div>
+        <h3 class="wf-h2" style="font-size: 26px;">Bulk fiber for your building.</h3>
+        <p class="wf-sub">One contract, every unit wired. Residents get gig speeds; you get a building amenity that pays for itself.</p>
+        <ul class="wf-stack tight" style="list-style: none; padding: 0;">
+          <li class="wf-feature">Single-bill billing for the whole property</li>
+          <li class="wf-feature">Resident-onboarding portal</li>
+          <li class="wf-feature">Volume pricing from $29/unit/mo</li>
+          <li class="wf-feature">Dedicated property manager</li>
+        </ul>
+        <button class="wf-btn" style="align-self: flex-start;">Contact Sales →</button>
+      </div>
+    </div>`,
+
+  'Business Fiber': () => `
+    <div class="wf wf-grid-2" style="align-items: center;">
+      <div class="wf-stack">
+        <div class="wf-eyebrow">For business</div>
+        <h3 class="wf-h2" style="font-size: 26px;">SLA-backed fiber for your team.</h3>
+        <p class="wf-sub">From the corner shop to the corporate floor. Static IPs, dedicated lines, four-hour response window.</p>
+        <button class="wf-btn" style="align-self: flex-start;">Get a Quote →</button>
+      </div>
+      <div class="wf-stack tight">
+        <div class="wf-card" style="flex-direction: row; align-items: center; padding: 14px 18px;"><div class="wf-icon"><i data-lucide="shield"></i></div><div class="wf-text" style="font-weight: 600;">99.99% uptime SLA</div></div><div class="wf-card" style="flex-direction: row; align-items: center; padding: 14px 18px;"><div class="wf-icon"><i data-lucide="globe"></i></div><div class="wf-text" style="font-weight: 600;">Static IPv4 + IPv6 included</div></div><div class="wf-card" style="flex-direction: row; align-items: center; padding: 14px 18px;"><div class="wf-icon"><i data-lucide="clock"></i></div><div class="wf-text" style="font-weight: 600;">4-hour response, 24/7</div></div><div class="wf-card" style="flex-direction: row; align-items: center; padding: 14px 18px;"><div class="wf-icon"><i data-lucide="phone-call"></i></div><div class="wf-text" style="font-weight: 600;">Dedicated business line</div></div>
+      </div>
+    </div>`,
+
+  // ===== MOBILE =====
+  'Bring Your Own Device': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">BYOD</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Keep your phone. Keep your number.</h3>
+      <p class="wf-sub">Most unlocked phones from the last five years just work. Check yours in 30 seconds.</p>
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="smartphone"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">iPhone</div><div class="wf-text" style="font-size: 13px;">iPhone 11 and newer</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="smartphone"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Pixel</div><div class="wf-text" style="font-size: 13px;">Pixel 5 and newer</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="smartphone"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Galaxy</div><div class="wf-text" style="font-size: 13px;">Galaxy S20 and newer</div></div>
+      </div>
+      <div class="wf-row" style="gap: 8px; margin-top: 12px;">
+        <input class="wf-input" placeholder="Enter your phone\'s IMEI" style="flex: 1; max-width: 360px;" />
+        <button class="wf-btn">Check Compatibility</button>
+      </div>
+    </div>`,
+
+  'Activate a SIM': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">3 steps</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Up and running in 10 minutes.</h3>
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card"><div class="wf-icon"><span style="font-family: var(--cw-font-display); font-weight: 700;">01</span></div><div style="font-family: var(--cw-font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Order</div><div class="wf-text" style="font-size: 13px;">Pick a plan and we'll ship a SIM (or eSIM) free overnight.</div></div><div class="wf-card"><div class="wf-icon"><span style="font-family: var(--cw-font-display); font-weight: 700;">02</span></div><div style="font-family: var(--cw-font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Activate</div><div class="wf-text" style="font-size: 13px;">Scan the QR code in our app or pop in the physical SIM.</div></div><div class="wf-card"><div class="wf-icon"><span style="font-family: var(--cw-font-display); font-weight: 700;">03</span></div><div style="font-family: var(--cw-font-display); font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Connect</div><div class="wf-text" style="font-size: 13px;">Your number ports in the background. No downtime.</div></div>
+      </div>
+      <div class="wf-row" style="margin-top: 8px;"><button class="wf-btn">Order a SIM →</button><button class="wf-btn ghost">Have a SIM? Activate</button></div>
+    </div>`,
+
+  'International': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">International</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Call home from anywhere.</h3>
+      <p class="wf-sub">Unlimited talk and text to 80+ countries. Roaming in 130+. No daily passes, no surprise bills.</p>
+      <div class="wf-grid-6" style="margin-top: 12px;">
+        <div class="wf-channel" style="font-size: 22px;">🇲🇽</div><div class="wf-channel" style="font-size: 22px;">🇯🇲</div><div class="wf-channel" style="font-size: 22px;">🇭🇹</div><div class="wf-channel" style="font-size: 22px;">🇳🇬</div><div class="wf-channel" style="font-size: 22px;">🇬🇭</div><div class="wf-channel" style="font-size: 22px;">🇪🇹</div><div class="wf-channel" style="font-size: 22px;">🇰🇪</div><div class="wf-channel" style="font-size: 22px;">🇮🇳</div><div class="wf-channel" style="font-size: 22px;">🇵🇭</div><div class="wf-channel" style="font-size: 22px;">🇧🇷</div><div class="wf-channel" style="font-size: 22px;">🇨🇴</div><div class="wf-channel" style="font-size: 22px;">🇩🇴</div>
+      </div>
+      <div class="wf-row" style="margin-top: 8px;"><button class="wf-btn ghost">See full country list →</button></div>
+    </div>`,
+
+  'FAQ': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">FAQ</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Common questions.</h3>
+      <div class="wf-stack tight" style="margin-top: 8px;">
+        <div class="wf-faq-q"><span class="q">How long does install take?</span><span class="plus">−</span></div><div class="wf-faq-q"><span class="q">Do you require a contract?</span><span class="plus">+</span></div><div class="wf-faq-q"><span class="q">What if my speeds are slow?</span><span class="plus">+</span></div><div class="wf-faq-q"><span class="q">Can I keep my email and phone number?</span><span class="plus">+</span></div><div class="wf-faq-q"><span class="q">Do you have student or senior discounts?</span><span class="plus">+</span></div><div class="wf-faq-q"><span class="q">What happens if I move?</span><span class="plus">+</span></div>
+      </div>
+    </div>`,
+
+  // ===== ABOUT =====
+  'Our Story': () => `
+    <div class="wf wf-grid-2" style="align-items: center;">
+      <div class="wf-img" style="min-height: 280px;">Founders photo<br/>(team on a build site)</div>
+      <div class="wf-stack">
+        <div class="wf-eyebrow">Our story</div>
+        <h3 class="wf-h2" style="font-size: 26px;">Started with one block. Now we serve 120.</h3>
+        <p class="wf-text">Culture Wireless was founded in 2019 by Atlanta natives who'd watched too many neighborhoods get passed over by national carriers. We started with one fiber pull on the East Side. We're now in 120 communities across Georgia and the Lower 48.</p>
+        <p class="wf-text">We're operators first, marketers last. Our trucks are local. Our techs live where you live. And every line we run is one less family stuck on dial-up speeds.</p>
+      </div>
+    </div>`,
+
+  'Mission · Vision · Pillars': () => `
+    <div class="wf wf-grid-3">
+      <div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="radio-tower"></i></div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cw-purple);">Connect</div><div class="wf-text" style="font-size: 14px;">Reliable fiber and 5G to the unserved, underserved, and unconnected.</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="users"></i></div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cw-purple);">Empower</div><div class="wf-text" style="font-size: 14px;">Local jobs, local techs, and digital literacy programs in every community we enter.</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="globe"></i></div><div style="font-family: var(--cw-font-display); font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cw-purple);">Expand</div><div class="wf-text" style="font-size: 14px;">Build out, never up. New blocks every week, new markets every quarter.</div></div>
+    </div>`,
+
+  'Leadership Team': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Leadership</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Operators, builders, neighbors.</h3>
+      <div class="wf-grid-4" style="margin-top: 12px;">
+        <div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-avatar" style="width: 80px; height: 80px; font-size: 22px;">JR</div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;">Jamal Reeves</div><div style="font-size: 12px; color: var(--cw-fg-3);">CEO & Co-founder</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-avatar" style="width: 80px; height: 80px; font-size: 22px;">AB</div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;">Aisha Bell</div><div style="font-size: 12px; color: var(--cw-fg-3);">Chief Network Officer</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-avatar" style="width: 80px; height: 80px; font-size: 22px;">DW</div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;">Devon Walker</div><div style="font-size: 12px; color: var(--cw-fg-3);">VP Operations</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-avatar" style="width: 80px; height: 80px; font-size: 22px;">MC</div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;">Maya Chen</div><div style="font-size: 12px; color: var(--cw-fg-3);">VP Customer Experience</div></div>
+      </div>
+    </div>`,
+
+  'Press & News': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Press</div>
+      <h3 class="wf-h2" style="font-size: 26px;">In the news.</h3>
+      <div class="wf-list" style="margin-top: 8px;">
+        <div><span class="wf-pill" style="flex-shrink: 0; background: var(--w); font-weight: 600; color: var(--cw-fg-2);">AJC</span><div style="flex: 1; font-weight: 500; color: var(--cw-fg-1); font-size: 14px;">Culture Wireless lights up Albany with first municipal fiber</div><div style="font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-3);">Apr 22, 2026</div></div><div><span class="wf-pill" style="flex-shrink: 0; background: var(--w); font-weight: 600; color: var(--cw-fg-2);">TechCrunch</span><div style="flex: 1; font-weight: 500; color: var(--cw-fg-1); font-size: 14px;">How a small Georgia ISP is taking on the national carriers</div><div style="font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-3);">Mar 14, 2026</div></div><div><span class="wf-pill" style="flex-shrink: 0; background: var(--w); font-weight: 600; color: var(--cw-fg-2);">NPR</span><div style="flex: 1; font-weight: 500; color: var(--cw-fg-1); font-size: 14px;">Closing the digital divide one block at a time</div><div style="font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-3);">Jan 30, 2026</div></div><div><span class="wf-pill" style="flex-shrink: 0; background: var(--w); font-weight: 600; color: var(--cw-fg-2);">Forbes</span><div style="flex: 1; font-weight: 500; color: var(--cw-fg-1); font-size: 14px;">30 Under 30: Jamal Reeves rebuilds rural broadband</div><div style="font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-3);">Dec 5, 2025</div></div>
+      </div>
+    </div>`,
+
+  'Careers': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Careers</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Build with us.</h3>
+      <p class="wf-sub">We're hiring techs, engineers, and customer advocates across the Southeast.</p>
+      <div class="wf-list" style="margin-top: 12px;">
+        <div style="justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px; color: var(--cw-fg-1);">Fiber Technician</div><div style="font-size: 12px; color: var(--cw-fg-3);">Atlanta, GA · Full-time</div></div><button class="wf-btn ghost">Apply →</button></div><div style="justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px; color: var(--cw-fg-1);">Network Engineer</div><div style="font-size: 12px; color: var(--cw-fg-3);">Remote (US) · Full-time</div></div><button class="wf-btn ghost">Apply →</button></div><div style="justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px; color: var(--cw-fg-1);">Customer Care Lead</div><div style="font-size: 12px; color: var(--cw-fg-3);">Atlanta, GA · Full-time</div></div><button class="wf-btn ghost">Apply →</button></div><div style="justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px; color: var(--cw-fg-1);">Field Operations Manager</div><div style="font-size: 12px; color: var(--cw-fg-3);">Macon, GA · Full-time</div></div><button class="wf-btn ghost">Apply →</button></div><div style="justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px; color: var(--cw-fg-1);">Software Engineer (ConnectIQ)</div><div style="font-size: 12px; color: var(--cw-fg-3);">Remote (US) · Full-time</div></div><button class="wf-btn ghost">Apply →</button></div>
+      </div>
+    </div>`,
+
+  // ===== SUPPORT =====
+  'Contact Channels': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Get in touch</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Real people. Local. Fast.</h3>
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="phone"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Call</div><div class="wf-text" style="font-weight: 600;">(404) 555-0148</div><div style="font-size: 12px; color: var(--cw-fg-3);">Mon–Sun · 6a–11p</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="message-circle"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Text</div><div class="wf-text" style="font-weight: 600;">Text HELP to 30303</div><div style="font-size: 12px; color: var(--cw-fg-3);">24/7 · avg reply 2 min</div></div><div class="wf-card" style="text-align: center; align-items: center;"><div class="wf-icon lg"><i data-lucide="mail"></i></div><div style="font-family: var(--cw-font-display); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">Email</div><div class="wf-text" style="font-weight: 600;">support@culturewireless.com</div><div style="font-size: 12px; color: var(--cw-fg-3);">Replies within 4 hours</div></div>
+      </div>
+    </div>`,
+
+  'Network Status': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Network status</div>
+      <h3 class="wf-h2" style="font-size: 26px;">All systems operational.</h3>
+      <div style="display: flex; gap: 12px; align-items: center; padding: 18px 20px; background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.3); border-radius: 12px; margin-top: 4px;">
+        <div style="width: 12px; height: 12px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 0 4px rgba(74,222,128,0.18);"></div>
+        <div style="flex: 1; font-weight: 600;">All services running normally</div>
+        <span class="wf-pill" style="font-family: var(--cw-font-mono);">Last checked · 30s ago</span>
+      </div>
+      <div class="wf-list" style="margin-top: 8px;">
+        <div style="justify-content: space-between;"><div style="display: flex; gap: 10px; align-items: center; flex: 1;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE80;"></div><span style="font-weight: 500;">Fiber backbone</span></div><span style="font-size: 12px; color: var(--cw-fg-3);">Operational</span></div><div style="justify-content: space-between;"><div style="display: flex; gap: 10px; align-items: center; flex: 1;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE80;"></div><span style="font-weight: 500;">5G mobile network</span></div><span style="font-size: 12px; color: var(--cw-fg-3);">Operational</span></div><div style="justify-content: space-between;"><div style="display: flex; gap: 10px; align-items: center; flex: 1;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE80;"></div><span style="font-weight: 500;">ConnectIQ app</span></div><span style="font-size: 12px; color: var(--cw-fg-3);">Operational</span></div><div style="justify-content: space-between;"><div style="display: flex; gap: 10px; align-items: center; flex: 1;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #4ADE80;"></div><span style="font-weight: 500;">Customer portal</span></div><span style="font-size: 12px; color: var(--cw-fg-3);">Operational</span></div><div style="justify-content: space-between;"><div style="display: flex; gap: 10px; align-items: center; flex: 1;"><div style="width: 8px; height: 8px; border-radius: 50%; background: #FFB900;"></div><span style="font-weight: 500;">Billing system</span></div><span style="font-size: 12px; color: var(--cw-fg-3);">Maintenance window May 9, 2-4am</span></div>
+      </div>
+    </div>`,
+
+  'Self-Service Help Articles': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Help center</div>
+      <h3 class="wf-h2" style="font-size: 26px;">Fix it yourself in 60 seconds.</h3>
+      <input class="wf-input" placeholder="Search help articles..." style="margin-top: 4px;" />
+      <div class="wf-grid-3" style="margin-top: 12px;">
+        <div class="wf-card"><div class="wf-icon"><i data-lucide="wifi"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Restart your router</div><div class="wf-text" style="font-size: 13px;">Power cycle in 30 seconds.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="gauge"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Run a speed test</div><div class="wf-text" style="font-size: 13px;">Use the ConnectIQ app for accurate readings.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="credit-card"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Update your payment method</div><div class="wf-text" style="font-size: 13px;">Settings → Billing → Methods.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="shield"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Set up parental controls</div><div class="wf-text" style="font-size: 13px;">Pause specific devices on a schedule.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="phone"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Port your number in</div><div class="wf-text" style="font-size: 13px;">Bring your existing number with no downtime.</div></div><div class="wf-card"><div class="wf-icon"><i data-lucide="home"></i></div><div style="font-family: var(--cw-font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;">Move your service</div><div class="wf-text" style="font-size: 13px;">Take Culture with you to a new address.</div></div>
+      </div>
+    </div>`,
+
+  'Send a Message': () => `
+    <div class="wf wf-grid-2" style="align-items: flex-start;">
+      <div class="wf-stack">
+        <div class="wf-eyebrow">Contact form</div>
+        <h3 class="wf-h2" style="font-size: 26px;">Send us a message.</h3>
+        <p class="wf-sub">We answer every message in under 4 hours. For outages, please use chat or call.</p>
+      </div>
+      <div class="wf-stack" style="background: var(--cw-bg-1); border: 1px solid var(--cw-border-1); border-radius: 12px; padding: 24px;">
+        <div class="wf-grid-2" style="gap: 12px;">
+          <div><label class="wf-label">First name</label><input class="wf-input" placeholder="Diane" /></div>
+          <div><label class="wf-label">Last name</label><input class="wf-input" placeholder="Mitchell" /></div>
+        </div>
+        <div><label class="wf-label">Email</label><input class="wf-input" placeholder="diane@example.com" /></div>
+        <div><label class="wf-label">Account # (optional)</label><input class="wf-input" placeholder="CW-000000" /></div>
+        <div><label class="wf-label">Message</label><textarea class="wf-input area" placeholder="What can we help with?"></textarea></div>
+        <button class="wf-btn">Send Message</button>
+      </div>
+    </div>`,
+
+  // ===== ACCOUNT =====
+  'Sign In': () => `
+    <div class="wf" style="display: flex; justify-content: center;">
+      <div class="wf-stack" style="max-width: 420px; width: 100%; background: var(--cw-bg-1); border: 1px solid var(--cw-border-1); border-radius: 16px; padding: 32px;">
+        <div class="wf-eyebrow">Welcome back</div>
+        <h3 class="wf-h2" style="font-size: 24px;">Sign in to Culture.</h3>
+        <div><label class="wf-label">Email or account #</label><input class="wf-input" placeholder="diane@example.com" /></div>
+        <div><label class="wf-label">Password</label><input class="wf-input" type="password" placeholder="••••••••" /></div>
+        <div class="wf-row" style="justify-content: space-between; align-items: center;">
+          <label style="display: flex; gap: 8px; align-items: center; font-size: 13px;"><input type="checkbox" /> Keep me signed in</label>
+          <a href="#" style="color: var(--cw-purple); font-size: 13px; font-weight: 600;">Forgot?</a>
+        </div>
+        <button class="wf-btn gradient" style="margin-top: 4px;">Sign In</button>
+        <div style="text-align: center; font-size: 13px; color: var(--cw-fg-3); padding-top: 8px; border-top: 1px solid var(--cw-border-1);">New to Culture? <a href="#" style="color: var(--cw-purple); font-weight: 600;">Create an account →</a></div>
+      </div>
+    </div>`,
+
+  'Pay My Bill': () => `
+    <div class="wf wf-grid-2">
+      <div class="wf-card" style="background: var(--cw-gradient-bg); color: white; border: none;">
+        <div style="font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.7;">Amount due</div>
+        <div class="wf-price" style="color: white; font-size: 56px;">$87.42</div>
+        <div style="font-size: 13px; opacity: 0.78;">Due May 18, 2026 · Account CW-104722</div>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button class="wf-btn" style="background: var(--cw-yellow); border-color: var(--cw-yellow); color: var(--cw-navy);">Pay Now</button>
+          <button class="wf-btn ghost" style="border-color: rgba(255,255,255,0.3); color: white;">Set Autopay</button>
+        </div>
+      </div>
+      <div class="wf-card">
+        <div style="font-family: var(--cw-font-display); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3);">Recent payments</div>
+        <div class="wf-list" style="border: none;">
+          <div style="padding: 12px 0; justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Apr 18, 2026</div><div style="font-size: 12px; color: var(--cw-fg-3);">Visa ····4421</div></div><div style="font-family: var(--cw-font-display); font-weight: 700;">$87.42</div></div><div style="padding: 12px 0; justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Mar 18, 2026</div><div style="font-size: 12px; color: var(--cw-fg-3);">Visa ····4421</div></div><div style="font-family: var(--cw-font-display); font-weight: 700;">$87.42</div></div><div style="padding: 12px 0; justify-content: space-between;"><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Feb 18, 2026</div><div style="font-size: 12px; color: var(--cw-fg-3);">Bank ····8830</div></div><div style="font-family: var(--cw-font-display); font-weight: 700;">$87.42</div></div>
+        </div>
+      </div>
+    </div>`,
+
+  'Usage Dashboard': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">This month</div>
+      <h3 class="wf-h2" style="font-size: 22px;">Your network at a glance.</h3>
+      <div class="wf-grid-4" style="margin-top: 8px;">
+        <div class="wf-card"><div class="wf-row" style="justify-content: space-between; align-items: center;"><div style="font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3);">Download</div><div class="wf-icon" style="width: 28px; height: 28px;"><i data-lucide="arrow-down" style="width: 14px; height: 14px;"></i></div></div><div class="wf-row" style="align-items: baseline; gap: 4px;"><div class="wf-stat" style="font-size: 28px;">248</div><div style="color: var(--cw-fg-3); font-size: 12px;">GB</div></div></div><div class="wf-card"><div class="wf-row" style="justify-content: space-between; align-items: center;"><div style="font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3);">Upload</div><div class="wf-icon" style="width: 28px; height: 28px;"><i data-lucide="arrow-up" style="width: 14px; height: 14px;"></i></div></div><div class="wf-row" style="align-items: baseline; gap: 4px;"><div class="wf-stat" style="font-size: 28px;">41</div><div style="color: var(--cw-fg-3); font-size: 12px;">GB</div></div></div><div class="wf-card"><div class="wf-row" style="justify-content: space-between; align-items: center;"><div style="font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3);">Avg speed</div><div class="wf-icon" style="width: 28px; height: 28px;"><i data-lucide="gauge" style="width: 14px; height: 14px;"></i></div></div><div class="wf-row" style="align-items: baseline; gap: 4px;"><div class="wf-stat" style="font-size: 28px;">487</div><div style="color: var(--cw-fg-3); font-size: 12px;">Mbps</div></div></div><div class="wf-card"><div class="wf-row" style="justify-content: space-between; align-items: center;"><div style="font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3);">Devices</div><div class="wf-icon" style="width: 28px; height: 28px;"><i data-lucide="laptop" style="width: 14px; height: 14px;"></i></div></div><div class="wf-row" style="align-items: baseline; gap: 4px;"><div class="wf-stat" style="font-size: 28px;">24</div><div style="color: var(--cw-fg-3); font-size: 12px;">active</div></div></div>
+      </div>
+      <div class="wf-card" style="padding: 24px;">
+        <div class="wf-row" style="justify-content: space-between;">
+          <div style="font-family: var(--cw-font-display); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;">Daily usage · last 14 days</div>
+          <span class="wf-pill">May 2026</span>
+        </div>
+        <div style="display: flex; gap: 6px; align-items: flex-end; height: 120px; margin-top: 8px;">
+          <div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 40%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 55%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 30%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 72%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 68%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 82%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 90%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 65%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 48%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 75%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 88%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 52%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 60%;"></div><div style="flex: 1; background: linear-gradient(to top, var(--cw-purple), rgba(139,105,193,0.4)); border-radius: 4px 4px 0 0; height: 78%;"></div>
+        </div>
+      </div>
+    </div>`,
+
+  'Account Settings': () => `
+    <div class="wf wf-stack">
+      <div class="wf-eyebrow">Settings</div>
+      <h3 class="wf-h2" style="font-size: 22px;">Manage your account.</h3>
+      <div class="wf-list" style="margin-top: 8px;">
+        <div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="user"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Profile</div><div style="font-size: 12px; color: var(--cw-fg-3);">Diane Mitchell · diane@example.com</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div><div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="bell"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Notifications</div><div style="font-size: 12px; color: var(--cw-fg-3);">Email + SMS for outages and bills</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div><div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="credit-card"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Payment methods</div><div style="font-size: 12px; color: var(--cw-fg-3);">Visa ····4421 · Bank ····8830</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div><div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="shield"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Security</div><div style="font-size: 12px; color: var(--cw-fg-3);">2FA enabled · Last login Apr 28</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div><div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="laptop"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Devices</div><div style="font-size: 12px; color: var(--cw-fg-3);">24 connected · 2 paused</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div><div style="justify-content: space-between;"><div class="wf-icon"><i data-lucide="home"></i></div><div style="flex: 1;"><div style="font-weight: 600; font-size: 14px;">Service address</div><div style="font-size: 12px; color: var(--cw-fg-3);">1421 Main St, Atlanta GA 30303</div></div><i data-lucide="chevron-right" style="color: var(--cw-fg-4);"></i></div>
+      </div>
+    </div>`,
+};
+
+function renderWireframe(name) {
+  const fn = WF[name];
+  if (fn) return fn();
+  return `<div class="wf wf-stack"><div class="wf-bar lg w-50"></div><div class="wf-bar w-90"></div><div class="wf-bar w-70"></div><div class="wf-img" style="min-height:120px;">Content placeholder</div></div>`;
+}
+
+function sectionsBlock(here) {
+  return here.sections.map((s, i) => {
+    const cls = s.name === 'Hero' ? ' has-hero' : '';
+    return `
+    <section class="page-section${cls}" id="sec-${i}" data-sec="${i}" data-screen-label="${String(i+1).padStart(2,'0')} ${s.name}">
+      ${renderWireframe(s.name)}
+    </section>
+  `;
+  }).join('');
+}
+
+function pageStandBlock(active) {
+  const here = sitemap[active];
+  const titleHTML = here.title.split('\n').map(t => t).join('<br/>');
+  const others = ROUTES.filter(r => r !== active);
+  const chips = others.map(r => `<a href="#${r}" class="chip">${sitemap[r].label} <i data-lucide="arrow-up-right" style="width:12px;height:12px;"></i></a>`).join('');
+
+  const isHome = active === '/';
+  return `
+    <section class="page-stand${isHome ? ' is-home' : ''}">
+      ${isHome ? '' : `
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="#/">CULTUREWIRELESS.COM</a>
+          <span class="slash">/</span>
+          <span>${here.label.toLowerCase().replace(/\s+/g,'-')}</span>
+        </div>
+        <div class="page-title-row">
+          <h1 class="cw-display">${titleHTML}</h1>
+          <div class="index-tag">Page · ${here.index}</div>
+        </div>
+        <p class="lede">${here.lede}</p>
+      </div>`}
+      <div class="page-flow">
+        ${sectionsBlock(here)}
+      </div>
+      <div class="container">
+        <div class="also-row">
+          <span class="label">Jump to</span>
+          ${chips}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function footerBlock() {
+  return `
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <div class="triplet"><span class="accent">Authentic</span> · Expert · Connected</div>
+          <div class="copyright" style="margin-top: 8px;">© 2026 Culture Wireless · Site proxy</div>
+        </div>
+        <div class="triplet">Unserved · Underserved · Unconnected</div>
+      </div>
+    </footer>
+  `;
+}
+
+function render() {
+  const active = currentRoute();
+  const here = sitemap[active];
+  const app = document.getElementById('app');
+
+  app.setAttribute('data-screen-label', `${here.index} ${here.label}`);
+
+  app.innerHTML = `
+    ${pageNav(active)}
+    ${pageStandBlock(active)}
+    ${footerBlock()}
+  `;
+
+  if (window.lucide) window.lucide.createIcons();
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// Theme handling
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('cw-theme', t); } catch (e) {}
+}
+function initTheme() {
+  let t = 'light';
+  try { t = localStorage.getItem('cw-theme') || 'light'; } catch (e) {}
+  document.documentElement.setAttribute('data-theme', t);
+}
+initTheme();
+
+window.addEventListener('hashchange', render);
+if (!window.location.hash) window.location.hash = '#/';
+render();
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('#themeToggle');
+  if (!btn) return;
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>

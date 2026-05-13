@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Display Type — Extended Font Options</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Michroma&family=Audiowide&family=Chakra+Petch:wght@500;700&family=Bai+Jamjuree:wght@600;700&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 18px 22px; color: var(--cw-fg-1); }
+  .row { display:flex; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--cw-border-1); }
+  .row:last-child { border-bottom: none; }
+  .meta { width: 200px; flex-shrink: 0; font-family: var(--cw-font-mono); font-size: 11px; color: var(--cw-fg-3); line-height: 1.4; }
+  .meta b { color: var(--cw-fg-1); font-family: var(--cw-font-sans); font-weight: 700; font-size: 12px; display:block; margin-bottom: 2px; }
+  .specimen { flex: 1; font-size: 36px; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 700; }
+  .pill { display:inline-block; font-family: var(--cw-font-display); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--cw-bg-3); color: var(--cw-purple); margin-left: 6px; vertical-align: middle; font-weight: 700; }
+  .pill.current { background: var(--cw-purple); color: #fff; }
+
+  .f-orbitron  { font-family: 'Orbitron', sans-serif; }
+  .f-michroma  { font-family: 'Michroma', sans-serif; letter-spacing: 0.02em; }
+  .f-audiowide { font-family: 'Audiowide', sans-serif; }
+  .f-chakra    { font-family: 'Chakra Petch', sans-serif; }
+  .f-bai       { font-family: 'Bai Jamjuree', sans-serif; }
+  .f-russo     { font-family: 'Russo One', sans-serif; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <span class="meta"><b>Orbitron <span class="pill current">current</span></b>Geometric, futuristic, telecom</span>
+    <span class="specimen f-orbitron cw-gradient-text">Culture Connects</span>
+  </div>
+  <div class="row">
+    <span class="meta"><b>Michroma <span class="pill">option</span></b>Wide, monoline, technical</span>
+    <span class="specimen f-michroma cw-gradient-text">Culture Connects</span>
+  </div>
+  <div class="row">
+    <span class="meta"><b>Audiowide <span class="pill">option</span></b>Rounded, bold, retro-tech</span>
+    <span class="specimen f-audiowide cw-gradient-text">Culture Connects</span>
+  </div>
+  <div class="row">
+    <span class="meta"><b>Chakra Petch <span class="pill">option</span></b>Angular, semi-extended</span>
+    <span class="specimen f-chakra cw-gradient-text">Culture Connects</span>
+  </div>
+  <div class="row">
+    <span class="meta"><b>Bai Jamjuree <span class="pill">option</span></b>Modern, neutral, versatile</span>
+    <span class="specimen f-bai cw-gradient-text">Culture Connects</span>
+  </div>
+  <div class="row">
+    <span class="meta"><b>Russo One <span class="pill">option</span></b>Heavy, condensed-extended hybrid</span>
+    <span class="specimen f-russo cw-gradient-text">Culture Connects</span>
+  </div>
+</body>
+</html>

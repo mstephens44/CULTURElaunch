@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Semantic Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 16px 20px; }
+  .grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .pair { border: 1px solid var(--cw-border-1); border-radius: 10px; overflow: hidden; }
+  .top, .bot { padding: 10px 12px; }
+  .top { font-family: var(--cw-font-display); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; }
+  .bot { font-family: var(--cw-font-mono); font-size: 10px; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="pair">
+      <div class="top" style="background:#8B69C1; color:#fff;">Primary</div>
+      <div class="bot" style="background:#33244D; color:#fff;">Container</div>
+    </div>
+    <div class="pair">
+      <div class="top" style="background:#77A3FF; color:#fff;">Secondary</div>
+      <div class="bot" style="background:#CCC1DC; color:#33244D;">Container</div>
+    </div>
+    <div class="pair">
+      <div class="top" style="background:#FFB900; color:#33244D;">Tertiary</div>
+      <div class="bot" style="background:#FFB900; color:#fff;">Container</div>
+    </div>
+    <div class="pair">
+      <div class="top" style="background:#DD342A; color:#fff;">Error</div>
+      <div class="bot" style="background:#93000A; color:#fff;">Container</div>
+    </div>
+  </div>
+</body>
+</html>

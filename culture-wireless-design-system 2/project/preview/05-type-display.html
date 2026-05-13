@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Display type</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 280px;
+    background: var(--cw-bg-1);
+    padding: 24px 28px; box-sizing: border-box;
+    font-family: var(--cw-font-sans);
+  }
+  .row { display: flex; align-items: baseline; gap: 18px; margin-bottom: 14px; }
+  .meta {
+    flex: 0 0 90px;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cw-fg-4); padding-top: 6px;
+  }
+  .specimen { color: var(--cw-fg-1); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="meta">Display XL · 88</div>
+    <div class="specimen cw-display-xl" style="font-size: 56px;">CONNECT.</div>
+  </div>
+  <div class="row">
+    <div class="meta">Display LG · 64</div>
+    <div class="specimen cw-display-lg" style="font-size: 40px;">EMPOWER.</div>
+  </div>
+  <div class="row">
+    <div class="meta">H1 · 48</div>
+    <div class="specimen cw-h1" style="font-size: 28px;">EXPAND.</div>
+  </div>
+  <div class="row">
+    <div class="meta">Eyebrow · 12</div>
+    <div class="specimen cw-eyebrow">Connect · Empower · Expand</div>
+  </div>
+</body>
+</html>

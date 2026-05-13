@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Radii & Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 18px 20px; display:flex; gap: 14px; }
+  .col { flex: 1; }
+  .col h4 { margin: 0 0 10px; font-family: var(--cw-font-display); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cw-fg-3); }
+  .row { display:flex; gap: 10px; }
+  .box { width: 56px; height: 56px; background: #fff; border: 1px solid var(--cw-border-1); display:flex; align-items:center; justify-content:center; font-family: var(--cw-font-mono); font-size: 10px; color: var(--cw-fg-3); }
+  .shadow-row .box { border: none; background: #fff; }
+</style>
+</head>
+<body>
+  <div class="col">
+    <h4>Radii</h4>
+    <div class="row">
+      <div class="box" style="border-radius:4px;">4</div>
+      <div class="box" style="border-radius:8px;">8</div>
+      <div class="box" style="border-radius:16px;">16</div>
+      <div class="box" style="border-radius:24px;">24</div>
+      <div class="box" style="border-radius:999px;">∞</div>
+    </div>
+  </div>
+  <div class="col">
+    <h4>Shadows</h4>
+    <div class="row shadow-row">
+      <div class="box" style="box-shadow: var(--cw-shadow-1); border-radius:8px;">1</div>
+      <div class="box" style="box-shadow: var(--cw-shadow-2); border-radius:8px;">2</div>
+      <div class="box" style="box-shadow: var(--cw-shadow-3); border-radius:8px;">3</div>
+      <div class="box" style="box-shadow: var(--cw-shadow-4); border-radius:8px;">4</div>
+      <div class="box" style="box-shadow: var(--cw-shadow-glow); border-radius:8px;">glow</div>
+    </div>
+  </div>
+</body>
+</html>

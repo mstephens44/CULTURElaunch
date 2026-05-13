@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 220px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    font-family: var(--cw-font-sans);
+    background: var(--cw-bg-1);
+  }
+  .cell {
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    border-right: 1px solid var(--cw-border-1);
+  }
+  .cell:last-child { border-right: 0; }
+  .dark { background: var(--cw-navy); }
+  .cell img { max-width: 70%; max-height: 100%; height: auto; display: block; }
+  .label {
+    position: absolute;
+    bottom: 8px; left: 12px;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cw-fg-3);
+  }
+  .dark .label { color: rgba(255,255,255,0.5); }
+  .cell { position: relative; }
+</style>
+</head>
+<body>
+  <div class="cell">
+    <img src="../assets/logos/customcolor_logo_transparent_background2.png" alt="Culture Wireless">
+    <span class="label">Primary · gradient on light</span>
+  </div>
+  <div class="cell dark">
+    <img src="../assets/logos/white_logo_transparent_background.png" alt="Culture Wireless">
+    <span class="label">Reverse · white on navy</span>
+  </div>
+</body>
+</html>

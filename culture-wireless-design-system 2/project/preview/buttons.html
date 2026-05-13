@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 22px 24px; display:flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn { font-family: var(--cw-font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 22px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; transition: all var(--cw-dur-base) var(--cw-ease-out); }
+  .btn-primary { background: var(--cw-gradient); color: #fff; box-shadow: var(--cw-shadow-glow); }
+  .btn-secondary { background: var(--cw-navy); color: #fff; }
+  .btn-outline { background: transparent; color: var(--cw-navy); border-color: var(--cw-navy); }
+  .btn-ghost { background: transparent; color: var(--cw-purple); }
+  .btn-yellow { background: var(--cw-yellow); color: var(--cw-navy); }
+</style>
+</head>
+<body>
+  <button class="btn btn-primary">Connect Now</button>
+  <button class="btn btn-secondary">Learn More</button>
+  <button class="btn btn-outline">Our Plans</button>
+  <button class="btn btn-yellow">Get Started</button>
+  <button class="btn btn-ghost">Skip →</button>
+</body>
+</html>

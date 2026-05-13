@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Logo Lockups</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); }
+  .grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; height: 220px; }
+  .cell { display:flex; align-items:center; justify-content:center; padding: 24px; }
+  .cell img { max-width: 100%; max-height: 140px; object-fit: contain; }
+  .light { background: #FFFFFF; }
+  .navy  { background: var(--cw-navy); }
+  .grad  { background: var(--cw-gradient-bg); }
+  .label { position:absolute; bottom:8px; left:12px; font-family: var(--cw-font-sans); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; opacity: 0.6; }
+  .cell { position: relative; }
+  .light .label { color: var(--cw-fg-3); }
+  .navy .label, .grad .label { color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="cell light">
+      <img src="../assets/logos/customcolor_logo_transparent_background2.png" alt="Culture Wireless gradient logo">
+      <span class="label">Gradient · Light</span>
+    </div>
+    <div class="cell navy">
+      <img src="../assets/logos/white_logo_transparent_background.png" alt="Culture Wireless white logo">
+      <span class="label">White · Navy</span>
+    </div>
+    <div class="cell grad">
+      <img src="../assets/logos/white_logo_transparent_background.png" alt="Culture Wireless white logo">
+      <span class="label">White · Gradient</span>
+    </div>
+  </div>
+</body>
+</html>

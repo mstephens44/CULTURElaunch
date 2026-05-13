@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Culture Wireless — Executive Overview 2026</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--cw-font-sans);
+    color: var(--cw-fg-2);
+    background: var(--cw-bg-3);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 32px 16px 48px;
+  }
+  .toolbar {
+    width: 816px;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+    color: var(--cw-fg-3);
+    font-family: var(--cw-font-mono); font-size: 11px;
+  }
+  .toolbar .badge {
+    font-family: var(--cw-font-display);
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cw-purple);
+    background: rgba(139,105,193,0.08);
+    padding: 4px 10px; border-radius: 999px; font-weight: 700;
+  }
+
+  /* PAGE — 8.5×11 */
+  .page {
+    width: 816px; height: 1056px;
+    background: var(--cw-bg-2);
+    box-shadow: var(--cw-shadow-4);
+    border-radius: 8px;
+    padding: 22px;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+  .page.no-horizon {
+    grid-template-rows: auto 1fr auto;
+  }
+
+  /* HEADER */
+  .hdr {
+    background: var(--cw-navy);
+    color: #fff;
+    border-radius: 20px;
+    padding: 22px 30px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.30),
+      0 12px 28px rgba(26,18,51,0.28);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .hdr::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 100% 0%, var(--accent-glow-1, rgba(139,105,193,0.40)) 0%, transparent 55%),
+      radial-gradient(ellipse at 0% 100%, var(--accent-glow-2, rgba(119,163,255,0.18)) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hdr-content { position: relative; flex: 1; }
+  .hdr-eyebrow {
+    display: inline-block;
+    font-family: var(--cw-font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cw-blue);
+    background: rgba(119,163,255,0.12);
+    border: 1px solid rgba(119,163,255,0.30);
+    padding: 5px 12px; border-radius: 999px;
+    margin-bottom: 12px;
+  }
+  .hdr h1 {
+    font-family: var(--cw-font-display);
+    font-size: 32px; font-weight: 700;
+    letter-spacing: 0.02em; line-height: 1.05;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+  .hdr h1 .accent {
+    background: var(--accent-gradient, var(--cw-gradient));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hdr p {
+    font-size: 12.5px; line-height: 1.55;
+    color: rgba(255,255,255,0.78);
+    max-width: 420px; margin: 0;
+  }
+  .hdr-mark { position: relative; flex-shrink: 0; }
+  .hdr-mark img { height: 92px; width: auto; opacity: 0.95; }
+
+  /* HORIZON STRIP */
+  .horizon {
+    position: relative;
+    background: var(--cw-navy);
+    color: #fff;
+    border-radius: 16px;
+    padding: 14px 22px 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 152px 1fr;
+    align-items: center;
+    gap: 22px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.10),
+      inset 0 -1px 0 rgba(0,0,0,0.25),
+      0 8px 20px rgba(26,18,51,0.20);
+  }
+  .horizon::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 0% 50%, var(--accent-glow-1, rgba(139,105,193,0.45)) 0%, transparent 55%),
+      radial-gradient(ellipse at 100% 100%, var(--accent-glow-2, rgba(119,163,255,0.20)) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .horizon-label {
+    position: relative;
+    border-right: 1px solid rgba(255,255,255,0.14);
+    padding-right: 20px;
+  }
+  .horizon-eyebrow {
+    font-family: var(--cw-font-mono);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.50);
+    margin-bottom: 4px;
+  }
+  .horizon-year {
+    font-family: var(--cw-font-display);
+    font-size: 24px; font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    background: var(--accent-gradient, var(--cw-gradient));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+  }
+  .horizon-tag {
+    font-size: 10px; line-height: 1.35;
+    color: rgba(255,255,255,0.62);
+    font-weight: 400;
+  }
+
+  .horizon-track {
+    position: relative;
+    padding-top: 14px;
+  }
+  .horizon-track::before {
+    content: '';
+    position: absolute;
+    left: 6px; right: 6px;
+    top: 21px;
+    height: 1px;
+    background: linear-gradient(90deg,
+      rgba(255,255,255,0.05) 0%,
+      rgba(255,255,255,0.28) 50%,
+      rgba(255,255,255,0.05) 100%);
+  }
+  .horizon-milestones {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .ms {
+    position: relative;
+    display: flex; flex-direction: column; align-items: flex-start;
+    padding-left: 14px;
+  }
+  .ms-dot {
+    position: absolute;
+    left: 0; top: 1px;
+    width: 9px; height: 9px;
+    border-radius: 999px;
+    background: var(--accent-gradient, var(--cw-gradient));
+    box-shadow:
+      0 0 0 2px var(--cw-navy),
+      0 0 12px var(--accent-glow-1, rgba(139,105,193,0.6));
+  }
+  .ms .q {
+    font-family: var(--cw-font-mono);
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 3px;
+  }
+  .ms .t {
+    font-family: var(--cw-font-display);
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .ms .d {
+    font-size: 9.5px; line-height: 1.35;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+  }
+
+  /* BODY GRID */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--cw-border-1);
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.95),
+      inset 0 -1px 0 rgba(26,18,51,0.05),
+      0 1px 2px rgba(26,18,51,0.04),
+      0 6px 16px rgba(26,18,51,0.06);
+    display: flex; flex-direction: column;
+  }
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .icon-pill {
+    width: 30px; height: 30px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pill-mission  { background: rgba(119,163,255,0.16); color: var(--cw-blue); }
+  .pill-problem  { background: rgba(221,52,42,0.10); color: var(--cw-error); }
+  .pill-solution { background: rgba(139,105,193,0.14); color: var(--cw-purple); }
+  .pill-diff     { background: rgba(255,185,0,0.20); color: #B17F00; }
+  .pill-leader   { background: rgba(51,36,77,0.10); color: var(--cw-navy); }
+  .pill-pos      { background: rgba(110,91,174,0.14); color: #6E5BAE; }
+
+  .card h3 {
+    font-family: var(--cw-font-display);
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--cw-navy);
+    margin: 0;
+  }
+  .card p {
+    font-size: 11.5px; line-height: 1.55;
+    color: var(--cw-fg-2); margin: 0 0 6px;
+  }
+  .card p:last-child { margin-bottom: 0; }
+  .card .lead {
+    font-size: 12px; font-weight: 600;
+    color: var(--cw-fg-1);
+  }
+
+  /* PROMISE — featured spanning card */
+  .promise {
+    grid-column: span 2;
+    background: var(--accent-gradient-bg, var(--cw-gradient-bg));
+    color: #fff;
+    border: none;
+    overflow: hidden;
+    padding: 22px 28px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.30),
+      inset 0 -1px 0 rgba(31,16,64,0.40),
+      0 12px 32px var(--accent-shadow, rgba(139,105,193,0.32));
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+    text-align: center;
+  }
+  .promise::before {
+    content: '';
+    position: absolute;
+    inset: -40% -10% auto auto;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .promise-left { position: relative; }
+  .promise-eb {
+    font-family: var(--cw-font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 6px;
+  }
+  .promise h2 {
+    font-family: var(--cw-font-display);
+    font-size: 28px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin: 0 0 6px;
+    line-height: 1;
+  }
+  .promise p {
+    font-size: 12px; line-height: 1.5;
+    color: rgba(255,255,255,0.82);
+    margin: 0; max-width: 520px;
+  }
+  .promise-bars {
+    position: relative;
+    display: flex; align-items: flex-end; gap: 6px;
+    height: 70px; flex-shrink: 0;
+  }
+  .promise-bars span {
+    width: 8px; background: #fff; border-radius: 3px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.4);
+  }
+
+  /* FOOTER */
+  .ftr {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 12px;
+    color: var(--cw-fg-3);
+    font-family: var(--cw-font-mono); font-size: 10px;
+  }
+  .ftr-tag {
+    font-family: var(--cw-font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cw-purple);
+  }
+  .pillars-line {
+    display: flex; gap: 14px;
+    font-family: var(--cw-font-display);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cw-navy);
+  }
+  .pillars-line span { display: flex; align-items: center; gap: 6px; }
+  .pillars-line .dot {
+    width: 4px; height: 4px;
+    border-radius: 999px;
+    background: var(--cw-purple);
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script type="text/babel">
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "year": "2026",
+  "eyebrow": "Executive Overview",
+  "headline1": "Culture",
+  "headline2": "Wireless.",
+  "subhead": "A community-centered connectivity platform — turning access into education, employment, entrepreneurship, and civic participation.",
+  "promiseTitle": "Culture Connects.",
+  "promiseBody": "We build access. We earn trust. We help communities participate fully in the digital future.",
+  "accent": "purple",
+  "showHorizon": true,
+  "pillar1": "Connect",
+  "pillar2": "Empower",
+  "pillar3": "Expand",
+  "footerTag": "culturewireless.com"
+} /*EDITMODE-END*/;
+
+const ACCENTS = {
+  purple: {
+    gradient: 'linear-gradient(90deg, #B59CE3 0%, #8B69C1 100%)',
+    gradientBg: 'linear-gradient(135deg, #6E5BAE 0%, #33244D 100%)',
+    glow1: 'rgba(139,105,193,0.40)',
+    glow2: 'rgba(119,163,255,0.18)',
+    shadow: 'rgba(139,105,193,0.32)'
+  },
+  blue: {
+    gradient: 'linear-gradient(90deg, #A6C2FF 0%, #77A3FF 100%)',
+    gradientBg: 'linear-gradient(135deg, #2B5AB8 0%, #1A2244 100%)',
+    glow1: 'rgba(119,163,255,0.45)',
+    glow2: 'rgba(139,105,193,0.16)',
+    shadow: 'rgba(43,90,184,0.32)'
+  },
+  amber: {
+    gradient: 'linear-gradient(90deg, #FFCF52 0%, #E5961A 100%)',
+    gradientBg: 'linear-gradient(135deg, #B17F00 0%, #2E1F0A 100%)',
+    glow1: 'rgba(229,150,26,0.38)',
+    glow2: 'rgba(119,163,255,0.14)',
+    shadow: 'rgba(177,127,0,0.32)'
+  },
+  red: {
+    gradient: 'linear-gradient(90deg, #FF7E73 0%, #DD342A 100%)',
+    gradientBg: 'linear-gradient(135deg, #B31C13 0%, #2A1010 100%)',
+    glow1: 'rgba(221,52,42,0.38)',
+    glow2: 'rgba(139,105,193,0.14)',
+    shadow: 'rgba(221,52,42,0.32)'
+  }
+};
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const accent = ACCENTS[t.accent] || ACCENTS.purple;
+
+  const pageStyle = {
+    '--accent-gradient': accent.gradient,
+    '--accent-gradient-bg': accent.gradientBg,
+    '--accent-glow-1': accent.glow1,
+    '--accent-glow-2': accent.glow2,
+    '--accent-shadow': accent.shadow
+  };
+
+  const cards = [
+  {
+    cls: 'pill-mission', icon: 'compass', title: 'The Mission',
+    lead: 'Help communities get connected, stay connected, and convert access into opportunity.',
+    body: `Built on trust, affordability, and economic opportunity for underserved populations — across education, employment, entrepreneurship, and civic life.`
+  },
+  {
+    cls: 'pill-problem', icon: 'alert-triangle', title: 'The Problem',
+    body: `Millions of Americans remain disconnected or under-connected — even where infrastructure exists. The issue isn't coverage alone. It's trust, affordability, adoption, and sustained engagement.`,
+    body2: `Large incumbents struggle to close the local trust gap, leaving communities with access but no culturally fluent path to meaningful participation.`
+  },
+  {
+    cls: 'pill-solution', icon: 'wifi', title: 'The Solution',
+    body: `Affordable 5G mobile service, open-access broadband, and grassroots distribution — combined into a commercially disciplined, impact-first model.`,
+    body2: `A major carrier partnership powers national 5G coverage; community ambassadors, institutional partnerships, and digital literacy support drive relationship-led adoption.`
+  },
+  {
+    cls: 'pill-diff', icon: 'sparkles', title: 'The Differentiator',
+    lead: `We don't simply sell a utility. We build trust around connectivity.`,
+    body: `Cultural fluency is the moat. Where incumbents focus on infrastructure and transactions, Culture focuses on access, adoption, and long-term community value.`
+  },
+  {
+    cls: 'pill-leader', icon: 'users', title: 'Leadership',
+    body: `A team with deep roots in community organizing, telecom operations, brand strategy, public-private partnerships, and strategic capital.`,
+    body2: `Operating experience and cultural credibility — a practical understanding of how to build trust in underserved markets.`
+  },
+  {
+    cls: 'pill-pos', icon: 'target', title: 'Strategic Position',
+    body: `At the intersection of telecommunications, digital equity, community development, and economic opportunity.`,
+    body2: `A trusted connectivity partner for municipalities, housing authorities, HBCUs, military communities, workforce organizations, foundations, and mission-aligned investors.`
+  }];
+
+
+  React.useEffect(() => {
+    if (window.lucide) window.lucide.createIcons();
+  });
+
+  return (
+    <>
+      <div className="toolbar">
+        <span>executive-overview.html · 816 × 1056</span>
+        <span className="badge">Executive One-Pager · {t.year}</span>
+      </div>
+
+      <div className={`page${t.showHorizon ? '' : ' no-horizon'}`} data-screen-label={`01 Executive Overview ${t.year}`} style={pageStyle}>
+        <header className="hdr">
+          <div className="hdr-content">
+            <span className="hdr-eyebrow">{t.eyebrow} · {t.year}</span>
+            <h1>{t.headline1} <span className="accent">{t.headline2}</span></h1>
+            <p>{t.subhead}</p>
+          </div>
+          <div className="hdr-mark">
+            <img src="assets/logos/white_logo_transparent_background.png" alt="Culture Wireless" />
+          </div>
+        </header>
+
+        {t.showHorizon &&
+        <div className="horizon">
+            <div className="horizon-label">
+              <div className="horizon-eyebrow">Horizon</div>
+              <div className="horizon-year">{t.year}</div>
+              <div className="horizon-tag">Connect · earn trust · scale</div>
+            </div>
+            <div className="horizon-track">
+              <div className="horizon-milestones">
+                <div className="ms">
+                  <div className="ms-dot"></div>
+                  <div className="q">Q1</div>
+                  <div className="t">Carrier Launch</div>
+                  <div className="d">National 5G live</div>
+                </div>
+                <div className="ms">
+                  <div className="ms-dot"></div>
+                  <div className="q">Q2</div>
+                  <div className="t">HBCU Pilots</div>
+                  <div className="d">12 campuses online</div>
+                </div>
+                <div className="ms">
+                  <div className="ms-dot"></div>
+                  <div className="q">Q3</div>
+                  <div className="t">OAN Expansion</div>
+                  <div className="d">3 anchor markets</div>
+                </div>
+                <div className="ms">
+                  <div className="ms-dot"></div>
+                  <div className="q">Q4</div>
+                  <div className="t">100K Activations</div>
+                  <div className="d">Adoption milestone</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div className="body-grid">
+          {cards.map((c, i) =>
+          <article key={i} className="card">
+              <div className="card-head">
+                <div className={`icon-pill ${c.cls}`}>
+                  <i data-lucide={c.icon} style={{ width: 16, height: 16 }}></i>
+                </div>
+                <h3>{c.title}</h3>
+              </div>
+              {c.lead && <p className="lead">{c.lead}</p>}
+              {c.body && <p>{c.body}</p>}
+              {c.body2 && <p>{c.body2}</p>}
+            </article>
+          )}
+
+          <article className="promise card">
+            <div className="promise-left">
+              <div className="promise-eb">Core Promise</div>
+              <h2>{t.promiseTitle}</h2>
+              <p>{t.promiseBody}</p>
+            </div>
+          </article>
+        </div>
+
+        <footer className="ftr">
+          <div className="pillars-line">
+            <span><span className="dot"></span>{t.pillar1}</span>
+            <span><span className="dot"></span>{t.pillar2}</span>
+            <span><span className="dot"></span>{t.pillar3}</span>
+          </div>
+          <span className="ftr-tag">{t.footerTag}</span>
+        </footer>
+      </div>
+
+      <TweaksPanel>
+        <TweakSection label="Year & Eyebrow" />
+        <TweakText label="Year" value={t.year} onChange={(v) => setTweak('year', v)} />
+        <TweakText label="Eyebrow" value={t.eyebrow} onChange={(v) => setTweak('eyebrow', v)} />
+
+        <TweakSection label="Header" />
+        <TweakText label="Headline 1" value={t.headline1} onChange={(v) => setTweak('headline1', v)} />
+        <TweakText label="Headline 2 (accent)" value={t.headline2} onChange={(v) => setTweak('headline2', v)} />
+        <TweakText label="Subhead" value={t.subhead} onChange={(v) => setTweak('subhead', v)} />
+
+        <TweakSection label="Theme" />
+        <TweakRadio label="Accent" value={t.accent}
+        options={['purple', 'blue', 'amber', 'red']}
+        onChange={(v) => setTweak('accent', v)} />
+        <TweakToggle label="Show 2026 horizon strip" value={t.showHorizon}
+        onChange={(v) => setTweak('showHorizon', v)} />
+
+        <TweakSection label="Core Promise" />
+        <TweakText label="Promise title" value={t.promiseTitle} onChange={(v) => setTweak('promiseTitle', v)} />
+        <TweakText label="Promise body" value={t.promiseBody} onChange={(v) => setTweak('promiseBody', v)} />
+
+        <TweakSection label="Pillars & Footer" />
+        <TweakText label="Pillar 1" value={t.pillar1} onChange={(v) => setTweak('pillar1', v)} />
+        <TweakText label="Pillar 2" value={t.pillar2} onChange={(v) => setTweak('pillar2', v)} />
+        <TweakText label="Pillar 3" value={t.pillar3} onChange={(v) => setTweak('pillar3', v)} />
+        <TweakText label="Footer tag" value={t.footerTag} onChange={(v) => setTweak('footerTag', v)} />
+      </TweaksPanel>
+    </>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Elevation</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-2); padding: 32px 24px; display:flex; gap: 24px; align-items: center; justify-content: center; }
+  .card { width: 100px; height: 80px; background: #fff; border-radius: 12px; display:flex; flex-direction: column; align-items:center; justify-content: center; gap: 4px; }
+  .name { font-family: var(--cw-font-display); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--cw-fg-1); }
+  .px { font-family: var(--cw-font-mono); font-size: 10px; color: var(--cw-fg-3); }
+  .glow { background: var(--cw-gradient) !important; color: #fff; }
+  .glow .name, .glow .px { color: #fff; }
+</style>
+</head>
+<body>
+  <div class="card" style="box-shadow: var(--cw-shadow-1);"><span class="name">Shadow 1</span><span class="px">hairline</span></div>
+  <div class="card" style="box-shadow: var(--cw-shadow-2);"><span class="name">Shadow 2</span><span class="px">card</span></div>
+  <div class="card" style="box-shadow: var(--cw-shadow-3);"><span class="name">Shadow 3</span><span class="px">overlay</span></div>
+  <div class="card" style="box-shadow: var(--cw-shadow-4);"><span class="name">Shadow 4</span><span class="px">hero</span></div>
+  <div class="card glow" style="box-shadow: var(--cw-shadow-glow);"><span class="name">Glow</span><span class="px">primary CTA</span></div>
+</body>
+</html>

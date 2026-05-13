@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Signature Gradient</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 16px 20px; }
+  .stack { display:grid; gap:10px; }
+  .grad-row { height: 48px; border-radius: 10px; display:flex; align-items:center; padding: 0 16px; box-shadow: var(--cw-shadow-1); color: #fff; }
+  .label { font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .hex { margin-left: auto; font-family: var(--cw-font-mono); font-size: 11px; opacity: 0.85; }
+  .wordmark { background: var(--cw-gradient); }
+  .bg { background: var(--cw-gradient-bg); }
+  .soft { background: var(--cw-gradient-soft); color: var(--cw-navy); }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="grad-row wordmark"><span class="label">Wordmark Gradient</span><span class="hex">#4F7BFF → #8B69C1 → #B07BC9</span></div>
+    <div class="grad-row bg"><span class="label">Background Gradient</span><span class="hex">#33244D → #4F3D7A → #8B69C1</span></div>
+    <div class="grad-row soft"><span class="label">Soft Gradient</span><span class="hex">#E8E1F4 → #C8B8E6</span></div>
+  </div>
+</body>
+</html>

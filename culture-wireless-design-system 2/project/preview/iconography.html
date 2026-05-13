@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Iconography</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 18px 22px; display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .col h4 { font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cw-fg-3); margin: 0 0 12px; font-weight: 700; }
+  .signal { display:flex; align-items: flex-end; gap: 4px; height: 64px; }
+  .signal span { width: 6px; background: var(--cw-gradient); border-radius: 2px; }
+  .icons { display:flex; gap: 16px; align-items: center; }
+  .icons i { color: var(--cw-navy); }
+</style>
+</head>
+<body>
+  <div class="col">
+    <h4>Brand mark — signal bars</h4>
+    <div class="signal">
+      <span style="height: 18%;"></span>
+      <span style="height: 32%;"></span>
+      <span style="height: 48%;"></span>
+      <span style="height: 64%;"></span>
+      <span style="height: 80%;"></span>
+      <span style="height: 100%;"></span>
+    </div>
+  </div>
+  <div class="col">
+    <h4>UI icons — Lucide (1.5px stroke)</h4>
+    <div class="icons">
+      <i data-lucide="wifi" style="width:28px;height:28px;"></i>
+      <i data-lucide="signal" style="width:28px;height:28px;"></i>
+      <i data-lucide="users" style="width:28px;height:28px;"></i>
+      <i data-lucide="globe" style="width:28px;height:28px;"></i>
+      <i data-lucide="zap" style="width:28px;height:28px;"></i>
+      <i data-lucide="graduation-cap" style="width:28px;height:28px;"></i>
+    </div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

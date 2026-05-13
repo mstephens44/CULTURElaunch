@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Form inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 240px;
+    background: var(--cw-bg-1);
+    padding: 28px; box-sizing: border-box;
+    font-family: var(--cw-font-sans);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px 24px;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    color: var(--cw-fg-1); text-transform: uppercase;
+  }
+  .input {
+    height: 44px; padding: 0 14px;
+    border: 1.5px solid var(--cw-border-2);
+    border-radius: var(--cw-radius-md);
+    font-family: var(--cw-font-sans); font-size: 14px;
+    color: var(--cw-fg-1); background: white;
+    transition: border-color var(--cw-dur-base) var(--cw-ease-out);
+  }
+  .input::placeholder { color: var(--cw-fg-4); }
+  .input:focus { outline: 0; border-color: var(--cw-purple); box-shadow: 0 0 0 3px rgba(139,105,193,0.25); }
+  .input.error { border-color: var(--cw-error); }
+  .helper { font-size: 11px; color: var(--cw-fg-3); }
+  .helper.error { color: var(--cw-error); }
+  .check { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
+  .check input { width: 18px; height: 18px; accent-color: var(--cw-purple); }
+  .check span { font-size: 13px; color: var(--cw-fg-2); }
+</style>
+</head>
+<body>
+  <div class="field">
+    <label>Email</label>
+    <input class="input" type="email" placeholder="you@example.com" value="jordan@culture.com">
+    <div class="helper">We'll only send updates about your service.</div>
+  </div>
+  <div class="field">
+    <label>ZIP code</label>
+    <input class="input error" type="text" value="12">
+    <div class="helper error">Enter a valid 5-digit ZIP.</div>
+  </div>
+  <div class="field">
+    <label>Phone</label>
+    <input class="input" type="tel" placeholder="(555) 123-4567">
+    <div class="check"><input type="checkbox" checked><span>Text me my activation code</span></div>
+  </div>
+  <div class="field">
+    <label>Plan</label>
+    <select class="input"><option>Connect Basic — $30/mo</option><option>Connect Plus</option></select>
+  </div>
+</body>
+</html>

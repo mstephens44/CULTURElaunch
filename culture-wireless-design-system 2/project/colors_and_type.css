@@ -1,0 +1,269 @@
+/* ============================================================
+   CULTURE WIRELESS — Colors & Typography
+   "Culture Connects."
+   ============================================================ */
+
+/* ---------- FONTS ---------- */
+/* Good Times: display / wordmark substitute — using Orbitron from Google Fonts.
+   FLAGGED: Good Times is a paid Larabie typeface; Orbitron is the closest free
+   match (geometric, uppercase, telecom feel). Replace with licensed font files
+   in /fonts/ for production. */
+/* Kelson Sans: body — using Jost from Google Fonts as the closest match
+   (geometric grotesque, similar proportions, available in many weights).
+   FLAGGED: substitute. */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Jost:ital,wght@0,300..800;1,300..800&display=swap');
+
+:root {
+  /* ---------- BRAND CORE ---------- */
+  --cw-navy:        #33244D;   /* primary deep navy — logo, headers, dark surfaces */
+  --cw-navy-deep:   #1A1233;   /* deeper navy for backgrounds (from guidelines image) */
+  --cw-purple:      #8B69C1;   /* primary purple */
+  --cw-blue:        #77A3FF;   /* secondary blue */
+  --cw-yellow:      #FFB900;   /* tertiary accent */
+  --cw-white:       #FFFFFF;
+
+  /* Signature gradient — wordmark, hero CTAs, accent fills */
+  --cw-gradient:        linear-gradient(90deg, #4F7BFF 0%, #8B69C1 60%, #B07BC9 100%);
+  --cw-gradient-bg:     linear-gradient(120deg, #33244D 0%, #4F3D7A 50%, #8B69C1 100%);
+  --cw-gradient-soft:   linear-gradient(135deg, #E8E1F4 0%, #C8B8E6 100%);
+
+  /* ---------- M3-STYLE SEMANTIC ROLES (from Branding Style Colors PDF) ---------- */
+  --cw-primary:                 #8B69C1;
+  --cw-on-primary:              #FFFFFF;
+  --cw-primary-container:       #33244D;
+  --cw-on-primary-container:    #FFFFFF;
+
+  --cw-secondary:               #77A3FF;
+  --cw-on-secondary:            #FFFFFF;
+  --cw-secondary-container:     #CCC1DC;
+  --cw-on-secondary-container:  #33244D;
+
+  --cw-tertiary:                #FFB900;
+  --cw-on-tertiary:             #33244D;
+  --cw-tertiary-container:      #FFB900;
+  --cw-on-tertiary-container:   #FFFFFF;
+
+  --cw-error:                   #DD342A;
+  --cw-on-error:                #FFFFFF;
+  --cw-error-container:         #93000A;
+  --cw-on-error-container:      #FFFFFF;
+
+  --cw-background:              #FFFFFF;
+  --cw-on-background:           #363535;
+  --cw-surface:                 #FFFFFF;
+  --cw-on-surface:              #363535;
+  --cw-surface-variant:         #D6CFE1;
+  --cw-on-surface-variant:      #33244D;
+
+  /* ---------- FG / BG SCALE ---------- */
+  --cw-fg-1:        #1A1233;   /* primary text on light */
+  --cw-fg-2:        #363535;   /* body text */
+  --cw-fg-3:        #6B6478;   /* secondary text */
+  --cw-fg-4:        #9E97AC;   /* tertiary / muted */
+  --cw-fg-inverse-1:#FFFFFF;
+  --cw-fg-inverse-2:#D6CFE1;
+
+  --cw-bg-1:        #FFFFFF;
+  --cw-bg-2:        #F7F4FB;   /* tinted off-white surface */
+  --cw-bg-3:        #EFE9F4;
+  --cw-bg-dark-1:   #1A1233;
+  --cw-bg-dark-2:   #33244D;
+  --cw-bg-dark-3:   #4F3D7A;
+
+  --cw-border-1:    #E5DEF0;
+  --cw-border-2:    #D6CFE1;
+  --cw-border-strong: #33244D;
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --cw-font-display: 'Orbitron', 'Good Times', 'Eurostile', sans-serif;
+  --cw-font-sans:    'Jost', 'Kelson Sans', 'Helvetica Neue', Arial, sans-serif;
+  --cw-font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---------- TYPE SCALE ---------- */
+  --cw-text-xs:  12px;
+  --cw-text-sm:  14px;
+  --cw-text-base:16px;
+  --cw-text-md:  18px;
+  --cw-text-lg:  22px;
+  --cw-text-xl:  28px;
+  --cw-text-2xl: 36px;
+  --cw-text-3xl: 48px;
+  --cw-text-4xl: 64px;
+  --cw-text-5xl: 88px;
+
+  /* ---------- SPACING ---------- */
+  --cw-space-1: 4px;
+  --cw-space-2: 8px;
+  --cw-space-3: 12px;
+  --cw-space-4: 16px;
+  --cw-space-5: 24px;
+  --cw-space-6: 32px;
+  --cw-space-7: 48px;
+  --cw-space-8: 64px;
+  --cw-space-9: 96px;
+
+  /* ---------- RADII ---------- */
+  --cw-radius-sm:   4px;
+  --cw-radius-md:   8px;
+  --cw-radius-lg:   16px;
+  --cw-radius-xl:   24px;
+  --cw-radius-pill: 999px;
+
+  /* ---------- ELEVATION ---------- */
+  --cw-shadow-1: 0 1px 2px rgba(26, 18, 51, 0.08);
+  --cw-shadow-2: 0 4px 12px rgba(26, 18, 51, 0.10);
+  --cw-shadow-3: 0 12px 32px rgba(26, 18, 51, 0.14);
+  --cw-shadow-4: 0 24px 64px rgba(26, 18, 51, 0.20);
+  --cw-shadow-glow: 0 8px 32px rgba(139, 105, 193, 0.35);
+
+  /* ---------- MOTION ---------- */
+  --cw-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --cw-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --cw-dur-fast: 150ms;
+  --cw-dur-base: 240ms;
+  --cw-dur-slow: 400ms;
+}
+
+/* ============================================================
+   SEMANTIC TYPE STYLES
+   ============================================================ */
+
+.cw-display-xl,
+h1.cw-display {
+  font-family: var(--cw-font-display);
+  font-size: var(--cw-text-5xl);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.02;
+  color: var(--cw-fg-1);
+  text-transform: uppercase;
+}
+
+.cw-display-lg {
+  font-family: var(--cw-font-display);
+  font-size: var(--cw-text-4xl);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--cw-fg-1);
+}
+
+.cw-h1 {
+  font-family: var(--cw-font-display);
+  font-size: var(--cw-text-3xl);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: var(--cw-fg-1);
+}
+
+.cw-h2 {
+  font-family: var(--cw-font-display);
+  font-size: var(--cw-text-2xl);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.15;
+  text-transform: uppercase;
+  color: var(--cw-fg-1);
+}
+
+.cw-h3 {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-xl);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--cw-fg-1);
+}
+
+.cw-h4 {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-lg);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--cw-fg-1);
+}
+
+.cw-eyebrow {
+  font-family: var(--cw-font-display);
+  font-size: var(--cw-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cw-purple);
+}
+
+.cw-body-lg {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-md);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--cw-fg-2);
+}
+
+.cw-body {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-base);
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--cw-fg-2);
+}
+
+.cw-body-sm {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-sm);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cw-fg-3);
+}
+
+.cw-caption {
+  font-family: var(--cw-font-sans);
+  font-size: var(--cw-text-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  color: var(--cw-fg-3);
+  text-transform: uppercase;
+}
+
+.cw-mono {
+  font-family: var(--cw-font-mono);
+  font-size: var(--cw-text-sm);
+  font-weight: 400;
+}
+
+/* ---------- GRADIENT TEXT (the wordmark treatment) ---------- */
+.cw-gradient-text {
+  background: var(--cw-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ============================================================
+   DARK THEME OVERRIDES
+   Activated by [data-theme="dark"] on <html>.
+   Inverts surface stack while keeping the gradient + accent palette.
+   ============================================================ */
+:root[data-theme="dark"] {
+  --cw-fg-1:        #FFFFFF;
+  --cw-fg-2:        rgba(255,255,255,0.82);
+  --cw-fg-3:        rgba(255,255,255,0.58);
+  --cw-fg-4:        rgba(255,255,255,0.36);
+
+  --cw-bg-1:        #221842;   /* slightly lifted card from navy */
+  --cw-bg-2:        #1A1233;   /* navy-deep app background */
+  --cw-bg-3:        #14102B;   /* deepest surface */
+
+  --cw-border-1:    rgba(255,255,255,0.08);
+  --cw-border-2:    rgba(255,255,255,0.18);
+  --cw-border-strong: var(--cw-purple);
+
+  --cw-shadow-1: 0 1px 2px rgba(0,0,0,0.4);
+  --cw-shadow-2: 0 4px 16px rgba(0,0,0,0.45);
+  --cw-shadow-3: 0 12px 32px rgba(0,0,0,0.55);
+  --cw-shadow-4: 0 24px 64px rgba(0,0,0,0.65);
+}

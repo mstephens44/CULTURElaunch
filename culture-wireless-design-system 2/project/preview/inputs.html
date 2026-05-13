@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Form Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 22px 24px; display:flex; flex-direction: column; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  label { font-family: var(--cw-font-display); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cw-fg-3); font-weight: 600; }
+  input, select {
+    font-family: var(--cw-font-sans);
+    font-size: 14px;
+    padding: 12px 14px;
+    border: 1px solid var(--cw-border-2);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--cw-fg-1);
+    outline: none;
+    transition: border-color var(--cw-dur-fast), box-shadow var(--cw-dur-fast);
+  }
+  input:focus, select:focus { border-color: var(--cw-purple); box-shadow: 0 0 0 3px rgba(139, 105, 193, 0.25); }
+  .row { display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+</style>
+</head>
+<body>
+  <div class="field">
+    <label>ZIP code</label>
+    <input type="text" value="30309" />
+  </div>
+  <div class="row">
+    <div class="field">
+      <label>Email</label>
+      <input type="email" placeholder="you@community.org" />
+    </div>
+    <div class="field">
+      <label>Plan</label>
+      <select><option>Connect Basic</option><option>Connect Plus</option></select>
+    </div>
+  </div>
+</body>
+</html>

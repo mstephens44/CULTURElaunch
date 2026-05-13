@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pillars</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-navy); padding: 28px; color: #fff; }
+  .row { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; align-items: start; }
+  .pillar { text-align: left; }
+  .num { font-family: var(--cw-font-display); font-size: 12px; letter-spacing: 0.18em; color: var(--cw-blue); font-weight: 600; margin-bottom: 10px; }
+  .name { font-family: var(--cw-font-display); font-size: 32px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; margin-bottom: 10px; }
+  .name.connect { background: linear-gradient(90deg, #4F7BFF 0%, #77A3FF 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .name.empower { background: linear-gradient(90deg, #77A3FF 0%, #8B69C1 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .name.expand  { background: linear-gradient(90deg, #8B69C1 0%, #B07BC9 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .desc { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.7); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="pillar"><div class="num">01 · PILLAR</div><div class="name connect">CONNECT</div><p class="desc">Authentic connections to the communities we serve.</p></div>
+    <div class="pillar"><div class="num">02 · PILLAR</div><div class="name empower">EMPOWER</div><p class="desc">No power for change is greater than a community discovering what it cares about.</p></div>
+    <div class="pillar"><div class="num">03 · PILLAR</div><div class="name expand">EXPAND</div><p class="desc">Reaching further into the unserved, underserved, and unconnected.</p></div>
+  </div>
+</body>
+</html>

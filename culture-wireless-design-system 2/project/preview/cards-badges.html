@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cards & Badges</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; padding: 22px 24px; background: var(--cw-bg-1); font-family: var(--cw-font-sans); }
+  .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 14px; align-items: start; }
+  .card { background: #fff; border: 1px solid var(--cw-border-1); border-radius: 16px; padding: 20px; box-shadow: var(--cw-shadow-2); }
+  .card .eyebrow { font-family: var(--cw-font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cw-purple); margin: 0 0 8px; }
+  .card h3 { font-family: var(--cw-font-sans); font-size: 20px; font-weight: 700; color: var(--cw-fg-1); margin: 0 0 6px; line-height: 1.2; }
+  .card p { font-size: 14px; color: var(--cw-fg-3); margin: 0; line-height: 1.5; }
+  .badges { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .badge { font-family: var(--cw-font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; }
+  .b-primary  { background: var(--cw-purple); color: #fff; }
+  .b-tonal    { background: #EFE9F4; color: var(--cw-navy); }
+  .b-outline  { background: transparent; color: var(--cw-navy); border: 1.5px solid var(--cw-navy); }
+  .b-warning  { background: var(--cw-yellow); color: var(--cw-navy); }
+  .b-error    { background: #FCE5E3; color: var(--cw-error); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="card">
+      <p class="eyebrow">Connect · Empower</p>
+      <h3>Reliable internet for every neighborhood.</h3>
+      <p>Affordable plans starting at $30/mo. No contracts. No hidden fees.</p>
+    </div>
+    <div class="badges">
+      <span class="badge b-primary">New</span>
+      <span class="badge b-tonal">Available</span>
+      <span class="badge b-outline">Coming Soon</span>
+      <span class="badge b-warning">Limited</span>
+      <span class="badge b-error">Outage</span>
+    </div>
+  </div>
+</body>
+</html>

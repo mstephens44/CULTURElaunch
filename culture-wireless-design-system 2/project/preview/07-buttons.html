@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 700px; height: 200px;
+    background: var(--cw-bg-2);
+    padding: 28px; box-sizing: border-box;
+    font-family: var(--cw-font-sans);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px; align-content: start;
+  }
+  .group { display: flex; align-items: center; gap: 12px; }
+  .label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cw-fg-3); flex: 0 0 80px; }
+  .btn {
+    font-family: var(--cw-font-display);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: var(--cw-radius-pill);
+    border: 0; cursor: pointer;
+    transition: all var(--cw-dur-base) var(--cw-ease-out);
+  }
+  .btn-primary { background: var(--cw-gradient); color: white; box-shadow: var(--cw-shadow-glow); }
+  .btn-secondary { background: var(--cw-navy); color: white; }
+  .btn-ghost { background: transparent; color: var(--cw-purple); box-shadow: inset 0 0 0 1.5px var(--cw-purple); }
+  .btn-yellow { background: var(--cw-yellow); color: var(--cw-navy); }
+  .btn-sm { padding: 8px 16px; font-size: 10.5px; }
+</style>
+</head>
+<body>
+  <div class="group">
+    <span class="label">Primary</span>
+    <button class="btn btn-primary">Get Connected</button>
+  </div>
+  <div class="group">
+    <span class="label">Secondary</span>
+    <button class="btn btn-secondary">View plans</button>
+  </div>
+  <div class="group">
+    <span class="label">Ghost</span>
+    <button class="btn btn-ghost">Learn more</button>
+  </div>
+  <div class="group">
+    <span class="label">Yellow</span>
+    <button class="btn btn-yellow">Sign up</button>
+  </div>
+  <div class="group">
+    <span class="label">Small</span>
+    <button class="btn btn-primary btn-sm">Connect</button>
+    <button class="btn btn-ghost btn-sm">Cancel</button>
+  </div>
+</body>
+</html>

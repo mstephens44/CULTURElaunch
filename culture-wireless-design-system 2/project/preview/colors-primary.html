@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Primary Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { margin:0; font-family: var(--cw-font-sans); background: var(--cw-bg-1); padding: 18px 20px; }
+  .row { display:grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .swatch { aspect-ratio: 1.6 / 1; border-radius: 12px; padding: 12px; display:flex; flex-direction: column; justify-content: space-between; box-shadow: var(--cw-shadow-1); }
+  .name { font-family: var(--cw-font-display); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; }
+  .hex  { font-family: var(--cw-font-mono); font-size: 11px; opacity: 0.85; }
+  .hairline { border: 1px solid var(--cw-border-1); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="swatch" style="background:#33244D; color:#fff;">
+      <div class="name">Navy</div><div class="hex">#33244D</div>
+    </div>
+    <div class="swatch" style="background:#8B69C1; color:#fff;">
+      <div class="name">Purple</div><div class="hex">#8B69C1</div>
+    </div>
+    <div class="swatch" style="background:#77A3FF; color:#fff;">
+      <div class="name">Blue</div><div class="hex">#77A3FF</div>
+    </div>
+    <div class="swatch" style="background:#000000; color:#fff;">
+      <div class="name">Black</div><div class="hex">#000000</div>
+    </div>
+    <div class="swatch hairline" style="background:#FFFFFF; color:#33244D;">
+      <div class="name">White</div><div class="hex">#FFFFFF</div>
+    </div>
+  </div>
+</body>
+</html>
